@@ -23,7 +23,7 @@ const Playground = () => {
         text: "Sorry, something went wrong with the selection",
         icon: "error",
         customClass: {
-          popup: 'rounded-popup',
+          popup: 'rounded-alert',
           confirmButton: 'rounded-alert'
         }
       });
@@ -42,7 +42,7 @@ const Playground = () => {
             text: "Your file was uploaded!",
             icon: "success",
             customClass: {
-              popup: 'rounded-popup',
+              popup: 'rounded-alert',
               confirmButton: 'rounded-alert'
             }
           });
@@ -55,7 +55,7 @@ const Playground = () => {
           text: "Sorry, something went wrong with the upload",
           icon: "error",
           customClass: {
-            popup: 'rounded-popup',
+            popup: 'rounded-alert',
             confirmButton: 'rounded-alert'
           }
         });
