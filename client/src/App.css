@@ -7,8 +7,11 @@
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
+  position: absolute;
+  top: 12px;
+  height: 4em;
+  background-size: contain;
+  margin: 0 auto;
   will-change: filter;
   transition: filter 300ms;
 }

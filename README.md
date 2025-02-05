@@ -1,6 +1,6 @@
 ## Image Upload Website
 
-To start, run "node index.js" from the server directory and "npm run dev" in the client directory. Proceed to "localhost:5173". After uploading an image, it should appear in the windows9-bucket on Amazon (in public/test/images). 
+Both frontnend and backend should be deployed on vercel. 
 
 
 #### References:
@@ -8,7 +8,9 @@ To start, run "node index.js" from the server directory and "npm run dev" in the
 Tutorials by Umakant Vashishtha on using Amazon S3, setting up Node.js and React:
 
 https://umakantv.medium.com/file-upload-using-aws-s3-node-js-and-react-setting-up-s3-bucket-part-1-b62935f8c9c9 - Part 1
+
 https://umakantv.medium.com/file-upload-using-aws-s3-node-js-and-react-node-js-server-setup-part-2-7c6cab2c2c49 - Part 2
+
 https://umakantv.medium.com/file-upload-using-aws-s3-node-js-and-react-build-react-app-part-3-0963ebd1f812 - Part 3
 
 
@@ -24,4 +26,4 @@ https://sweetalert2.github.io/#examples - custom alerts
 
 ChatGPT for debugging
 
-
+https://vinyldavyl.medium.com/how-to-deploy-a-fullstack-nodejs-and-express-app-on-vercel-c79d433eeb6 - deployment with vercel

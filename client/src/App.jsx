@@ -50,6 +50,7 @@ function App() {
   const [count, setCount] = useState(0)
   return (
     <div className="App">
+      <img className="logo" src="/logo_butterfly.png" alt="logo"/>
       <div className="Tabs"> <TabGroup /> </div>
       <Container style={{ display: "flex", justifyContent: "center" }}>
         <Playground />
