@@ -9,7 +9,8 @@ app.use(express.json())
 app.use(cors({
     origin: 'http://localhost:3000',
     origin: 'http://localhost:5173',
-    origin: 'http://10.159.23.113:5173'
+    origin: 'http://10.159.23.113:5173',
+    origin: 'https://image-upload-frontend-one.vercel.app/'
 }))
 
 app.use('/api/s3', s3Router)
