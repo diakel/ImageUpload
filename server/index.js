@@ -8,8 +8,8 @@ const app = express()
 app.use(express.json())
 app.use(cors({
     origin: 'http://localhost:3000',
-    origin: 'http://10.43.226.147:5173'
-    //origin: 'https://image-upload-frontend-one.vercel.app',
+    //origin: 'http://10.43.226.147:5173'
+    origin: 'https://image-upload-frontend-one.vercel.app',
     //origin: 'http://192.168.0.102:5173'
 }))
 
