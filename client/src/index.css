@@ -67,7 +67,7 @@ button:active {
 }
 
 .uploadButton {
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .upload{
@@ -111,6 +111,19 @@ input[type="file"] {
   display: inline-block;
   cursor: pointer;
   color: rgba(125, 120, 120, 1);
+}
+
+.consent {
+  display: inline-block;
+  margin-top: 12px;
+  width: 297px; height: 30px;
+  font-size: 0.8rem;
+  color: rgb(92, 86, 86);
+  position:relative;
+}
+
+#terms {
+  margin-top: 7px;
 }
 
 #cloud {

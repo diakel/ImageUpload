@@ -1,17 +1,19 @@
 #root {
   max-width: 1280px;
-  padding-top: 10px;
-  padding-bottom: 30px;
+  padding-bottom: 10px;
   margin: 0 auto;
   text-align: center;
 }
 
+.header {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
 .logo {
-  position: absolute;
-  top: 12px;
-  height: 4em;
-  background-size: contain;
-  margin: 0 auto;
+  width: 70px; height: 70px;
   will-change: filter;
   transition: filter 300ms;
 }
