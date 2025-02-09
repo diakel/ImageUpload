@@ -20,6 +20,11 @@ const Playground = () => {
   var key = null;
   var res = null;
   const [fileLink, setFileLink] = useState("");
+
+  const showTermsPopup = () => {
+    AlertPopup("Terms and Conditions", "Just a placeholder, ignore it for now", "info");
+  };
+
   const onFileSelect = (e) => {
     file = e.target.files[0];
     content_type = file.type;
@@ -93,7 +98,14 @@ const Playground = () => {
         <button id="uploadB" onClick={onUploadClick}>Upload</button>
       </div>
       <div className="consent">
-        <p> By clicking Upload, I accept the Terms and Conditions</p>
+        <p> By clicking Upload, I accept the {" "}
+        <span 
+          onClick={showTermsPopup} 
+          style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }}
+        >
+        Terms and Conditions
+        </span>.
+      </p>
       </div>
       </div>
     </div>

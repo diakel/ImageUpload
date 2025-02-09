@@ -1,10 +1,25 @@
+@font-face {
+  font-family: 'PlakatGrotesk';
+  src: url(./fonts/PlakatGrotesk.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'OptimoPlainRegular';
+  src: url(./fonts/PlainPlain-RegularPlain-Regular.otf) format('opentype');  
+}
+
+@font-face {
+  font-family: 'OptimoPlainMedium';
+  src: url(./fonts/PlainPlain-MediumPlain-Medium.otf) format('opentype'); 
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'OptimoPlainRegular', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
   color: rgba(0, 0, 0, 0.87);
-  background-color: rgba(255, 243, 167, 1);
+  background-color: rgb(255, 255, 255);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -27,9 +42,26 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-image: url("/road.png");
+  background-image: url("/sf.png");
   background-repeat: no-repeat;
-  background-position: bottom 80px center;
+  background-position: bottom center;
+}
+
+@media only screen
+  and (max-width: 500px) {
+    body {
+      background-image: url("/sf_a4.png");
+      background-color: rgb(255, 255, 255);
+      
+    }
+}
+
+@media only screen
+  and (min-width: 501px) {
+    body {
+      background-image: url("/sf_landscape.png");
+      background-color: rgb(255, 255, 255);
+    }
 }
 
 .header {

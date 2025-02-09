@@ -21,6 +21,10 @@ const SketchPad = () => {
   const [color, setColor] = useState("#000000");
   const canvasRef = useRef(null);
 
+  const showTermsPopup = () => {
+    AlertPopup("Terms and Conditions", "Just a placeholder, ignore it for now", "info");
+  };
+
   const URLtoBlob = (dataURL) => {
     const byteString = atob(dataURL.split(",")[1]);
     const mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
@@ -42,7 +46,7 @@ const SketchPad = () => {
     const blob = URLtoBlob(imageURL);
     var file = new File([blob], "sketch.png", { type: "image/png" });
     var content_type = file.type;
-    var key = `test/drawing/${file.name}`;
+    var key = `test/image/${file.name}`;
     var res = null;
     getSignedUrl({ key, content_type }).then((response) => {
       res = response;
@@ -119,11 +123,18 @@ const SketchPad = () => {
         />
         <button id="drawButton" onClick={() => canvasRef.current.clear()}>Clear</button>
         <button id="drawButton" onClick={() => canvasRef.current.undo()}>Undo</button>
-        <div className = "uploadButton" style={{ marginTop: "20px", marginBottom: "0px"}}>
+        <div className = "uploadButton" style={{ marginTop: "15px", marginBottom: "0px"}}>
           <button id="uploadB" onClick={onUploadClick}>Upload</button>
         </div>
         <div className="consent" style={{ width: "222px", marginTop: "0px"}}>
-          <p> By clicking Upload, you agree to the Terms and Conditions</p>
+          <p> By clicking Upload, I accept the {" "}
+          <span 
+            onClick={showTermsPopup} 
+            style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }}
+          >
+          Terms and Conditions
+          </span>.
+          </p>
         </div>
       </div>
     </div>
