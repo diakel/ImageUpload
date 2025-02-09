@@ -79,11 +79,7 @@ button:active {
   margin-top: 10px;
 }
 
-.upload{
-  display: flex;
-  align-items: center;
-}
-
+/*
 .frame{
   width:297px; height:392px;
   display:inline-block;
@@ -92,9 +88,10 @@ button:active {
   background-color: rgba(255, 255, 255, 1);
   position:relative;
 }
+*/
 
 .innerFrame{
-  width:236px; height:311px;
+  width:236px; height:350px;
   display:inline-block;
   border:1px dotted rgb(0, 0, 0);
   border-radius: 25px;
@@ -133,27 +130,23 @@ input[type="file"] {
 }
 
 .custom-file-upload {
-  width:236px; height:311px;
+  width:236px; height:345px;
   display: inline-block;
   cursor: pointer;
-  color: rgba(125, 120, 120, 1);
+  color: rgba(105, 101, 101, 1);
 }
 
 .consent {
   display: inline-block;
   margin-top: 0px;
-  width: 297px; height: 30px;
+  width: 222px; height: 30px;
   font-size: 0.8rem;
-  color: rgb(92, 86, 86);
+  color: rgb(105, 101, 101);
   position:relative;
 }
 
-#terms {
-  margin-top: 7px;
-}
-
 #cloud {
-  margin-top: 100px;
+  margin-top: 125px;
 }
 
 .rounded-alert {

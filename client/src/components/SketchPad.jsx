@@ -96,7 +96,7 @@ const SketchPad = () => {
           lazyRadius={0}
           brushRadius={1}
           canvasWidth={222}
-          canvasHeight={311}
+          canvasHeight={336}
           hideGrid
         />
       </div>
@@ -119,7 +119,7 @@ const SketchPad = () => {
         />
         <button id="drawButton" onClick={() => canvasRef.current.clear()}>Clear</button>
         <button id="drawButton" onClick={() => canvasRef.current.undo()}>Undo</button>
-        <div className = "uploadButton" style={{ marginTop: "25px", marginBottom: "0px"}}>
+        <div className = "uploadButton" style={{ marginTop: "20px", marginBottom: "0px"}}>
           <button id="uploadB" onClick={onUploadClick}>Upload</button>
         </div>
         <div className="consent" style={{ width: "222px", marginTop: "0px"}}>

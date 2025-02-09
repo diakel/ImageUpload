@@ -78,7 +78,7 @@ const Playground = () => {
   };
   return (
     <div>
-      <div className="upload">
+      <div className="drawFrame">
         <div className = "frame">
           <div id="previewArea" className = "innerFrame">
             <label htmlFor="fileUpload" className="custom-file-upload">
@@ -89,12 +89,12 @@ const Playground = () => {
             <img id="chosenImage" src={fileLink} />
           </div>
         </div>
+      <div className = "uploadButton" style={{ marginTop: "40px"}}>
+        <button id="uploadB" onClick={onUploadClick}>Upload</button>
       </div>
       <div className="consent">
-        <p> By clicking Upload I accept the Terms and Conditions</p>
+        <p> By clicking Upload, I accept the Terms and Conditions</p>
       </div>
-      <div className = "uploadButton">
-        <button id="uploadB" onClick={onUploadClick}>Upload</button>
       </div>
     </div>
   );
