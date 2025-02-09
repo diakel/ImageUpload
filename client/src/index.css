@@ -66,6 +66,15 @@ button:active {
   border-width: 1px;
 }
 
+#drawButton {
+  width: 70px; height: 30px;
+  font-size: 0.85em;
+  font-weight: 400;
+  line-height: 0;
+  padding: 1em;
+  margin-left: 10px;
+}
+
 .uploadButton {
   margin-top: 10px;
 }
@@ -106,6 +115,23 @@ input[type="file"] {
   display: none;
 }
 
+.drawFrame{
+  width:297px; height:558px;
+  display:inline-block;
+  border:1px solid rgb(0, 0, 0);
+  border-radius: 60px;
+  background-color: rgba(255, 255, 255, 1);
+  position:relative;
+}
+
+.drawArea {
+  display: inline-block;
+  margin-top: 38px;
+  border: 1px dotted rgba(0, 0, 0);
+  border-radius: 25px;
+  padding: 7px;
+}
+
 .custom-file-upload {
   width:236px; height:311px;
   display: inline-block;
@@ -115,7 +141,7 @@ input[type="file"] {
 
 .consent {
   display: inline-block;
-  margin-top: 12px;
+  margin-top: 0px;
   width: 297px; height: 30px;
   font-size: 0.8rem;
   color: rgb(92, 86, 86);

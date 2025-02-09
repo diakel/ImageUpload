@@ -3,6 +3,7 @@ import './App.css'
 import React from "react";
 import Container from "@mui/material/Container";
 import Playground from "./components/Playground";
+import SketchPad from "./components/SketchPad";
 import styled from "styled-components";
 
 const areas = ["File", "Draw"];
@@ -27,8 +28,8 @@ const Tab = styled.button.withConfig({
 `;
 
 
-function TabGroup() {
-  const [active, setActive] = useState(areas[0]);
+function TabGroup({active, setActive}) {
+  // const [active, setActive] = useState(areas[0]);
   return (
     <>
       <div>
@@ -47,13 +48,15 @@ function TabGroup() {
 }
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [active, setActive] = useState(areas[0]);
   return (
     <div className="App">
       <div className="header"><img className="logo" src="/logo_butterfly.png" alt="logo"/></div>
-      <div className="Tabs"> <TabGroup /> </div>
+      <div className="Tabs"> <TabGroup active={active} setActive={setActive} /> </div>
       <Container style={{ display: "flex", justifyContent: "center" }}>
-        <Playground />
+        {active === areas[0] && <Playground />}
+        {active === areas[1] && <SketchPad />}
       </Container>
     </div>
   );
