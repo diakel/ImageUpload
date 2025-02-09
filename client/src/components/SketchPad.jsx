@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import CanvasDraw from "react-canvas-draw";
 import { getSignedUrl, uploadFileToSignedUrl } from "../api";
 import Swal from 'sweetalert2';
+import { v4 as uuidv4 } from "uuid";
 
 // Completely unrefactored
 
@@ -44,7 +45,8 @@ const SketchPad = () => {
     }
     var imageURL = canvasRef.current.getDataURL();
     const blob = URLtoBlob(imageURL);
-    var file = new File([blob], "sketch.png", { type: "image/png" });
+    const fileName = `sketch_${uuidv4()}.png`;
+    var file = new File([blob], fileName, { type: "image/png" });
     var content_type = file.type;
     var key = `test/image/${file.name}`;
     var res = null;

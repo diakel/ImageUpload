@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { getSignedUrl, uploadFileToSignedUrl } from "../api";
 import Swal from 'sweetalert2';
+import { v4 as uuidv4 } from "uuid";
+
 const MAX_UPLOAD_SIZE = 10485760; // in bytes (set to 10 MB)
 
 function AlertPopup(title, text, icon) {
@@ -26,7 +28,9 @@ const Playground = () => {
   };
 
   const onFileSelect = (e) => {
-    file = e.target.files[0];
+    var original_file = e.target.files[0];
+    const newFileName = `${uuidv4()}_${original_file.name}`;
+    file = new File([original_file], newFileName, { type: original_file.type });
     content_type = file.type;
     key = `test/image/${file.name}`;
     res = null;
