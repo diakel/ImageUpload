@@ -1,7 +1,8 @@
 ## Image Upload Website
 
-Both frontnend and backend should be deployed on vercel. 
+Refactoring is needed. 
 
+Both frontend and backend will be deployed on vercel. 
 
 #### References:
 
@@ -27,3 +28,5 @@ https://sweetalert2.github.io/#examples - custom alerts
 ChatGPT for debugging
 
 https://vinyldavyl.medium.com/how-to-deploy-a-fullstack-nodejs-and-express-app-on-vercel-c79d433eeb6 - deployment with vercel
+
+https://github.com/embiem/react-canvas-draw/tree/master - react-canvas-draw library docs
