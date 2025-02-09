@@ -122,7 +122,7 @@ const SketchPad = () => {
         <div className = "uploadButton" style={{ marginTop: "25px", marginBottom: "0px"}}>
           <button id="uploadB" onClick={onUploadClick}>Upload</button>
         </div>
-        <div className="consent" style={{ marginTop: "0px"}}>
+        <div className="consent" style={{ width: "222px", marginTop: "0px"}}>
           <p> By clicking Upload, you agree to the Terms and Conditions</p>
         </div>
       </div>
