@@ -86,9 +86,9 @@ const Playground = () => {
             */
             key = `test/image/${file.name}`;
             content_type = file.type;
-            res = null;
+            // res = null;
             getSignedUrl({ key, content_type }).then((response) => {
-              res = response;
+              // res = response;
               // console.log(res);
               // document.getElementById("chosenImage").src = URL.createObjectURL(file);
               uploadFileToSignedUrl(

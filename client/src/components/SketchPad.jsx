@@ -19,7 +19,7 @@ function AlertPopup(title, text, icon) {
 };
 
 const SketchPad = () => {
-  const [color, setColor] = useState("#000000");
+  const [color, setColor] = useState("#ffffff");
   const canvasRef = useRef(null);
 
   const showTermsPopup = () => {
@@ -48,14 +48,14 @@ const SketchPad = () => {
     const now = new Date();
     const later = new Date(2100, 12, 31, 10, 0, 0, 0);
     const timeDiff = Math.abs(later - now);
-    const fileName = `${timeDiff}_${uuidv4()}_sketch`;
+    const fileName = `${timeDiff}_${uuidv4()}_sketch.jpeg`;
     // const fileName = `sketch_${uuidv4()}.png`;
-    var file = new File([blob], fileName, { type: "image/png" });
-    var content_type = file.type;
-    var key = `test/image/${file.name}`;
-    var res = null;
+    const file = new File([blob], fileName, { type: "image/jpg" });
+    const content_type = file.type;
+    const key = `test/image/${file.name}`;
+    // var res = null;
     getSignedUrl({ key, content_type }).then((response) => {
-      res = response;
+      // res = response;
       if (file && content_type && key) {
         Swal.fire({
           title: "Upload is in progress...",
@@ -69,7 +69,7 @@ const SketchPad = () => {
           didOpen: () => {
             Swal.showLoading();
             uploadFileToSignedUrl(
-              res.data.signedUrl,
+              response.data.signedUrl,
               file,
               content_type,
               (progressEvent) => {
@@ -99,7 +99,7 @@ const SketchPad = () => {
 
   return (
     <div className="drawFrame" style={{ textAlign: "center" }}>
-      <div className="drawArea">
+      <div className="drawArea" style={{backgroundColor: "black"}}>
         <CanvasDraw 
           ref={canvasRef}
           brushColor={color}
@@ -107,6 +107,7 @@ const SketchPad = () => {
           brushRadius={1}
           canvasWidth={222}
           canvasHeight={336}
+          backgroundColor="#000000"
           hideGrid
         />
       </div>
