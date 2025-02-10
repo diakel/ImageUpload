@@ -29,7 +29,12 @@ const Playground = () => {
 
   const onFileSelect = (e) => {
     var original_file = e.target.files[0];
-    const newFileName = `${uuidv4()}_${original_file.name}`;
+
+    const now = new Date();
+    const later = new Date(2100, 12, 31, 10, 0, 0, 0);
+    const timeDiff = Math.abs(later - now);
+    const newFileName = `${timeDiff}_${uuidv4()}_${original_file.name}`;
+
     file = new File([original_file], newFileName, { type: original_file.type });
     content_type = file.type;
     key = `test/image/${file.name}`;

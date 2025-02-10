@@ -45,7 +45,11 @@ const SketchPad = () => {
     }
     var imageURL = canvasRef.current.getDataURL();
     const blob = URLtoBlob(imageURL);
-    const fileName = `sketch_${uuidv4()}.png`;
+    const now = new Date();
+    const later = new Date(2100, 12, 31, 10, 0, 0, 0);
+    const timeDiff = Math.abs(later - now);
+    const fileName = `${timeDiff}_${uuidv4()}_sketch`;
+    // const fileName = `sketch_${uuidv4()}.png`;
     var file = new File([blob], fileName, { type: "image/png" });
     var content_type = file.type;
     var key = `test/image/${file.name}`;
