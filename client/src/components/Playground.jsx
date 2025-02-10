@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { getSignedUrl, uploadFileToSignedUrl } from "../api";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from "uuid";
+import { LoremIpsum } from "lorem-ipsum";
 
 const MAX_UPLOAD_SIZE = 10485760; // in bytes (set to 10 MB)
 
@@ -25,7 +26,17 @@ const Playground = () => {
   const [fileLink, setFileLink] = useState();
   const [selectedSculpture, setSelectedSculpture] = useState("");
   const showTermsPopup = () => {
-    AlertPopup("Terms and Conditions", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac vehicula eros, eget vulputate ipsum. Donec iaculis turpis nec eros bibendum, nec faucibus felis fermentum. In congue in erat sed cursus. Etiam quis justo at enim efficitur pellentesque id eu ligula. Proin suscipit mollis elementum. Pellentesque finibus orci ut orci ullamcorper, in lobortis neque congue. Fusce accumsan dolor ut felis dapibus, at consequat diam laoreet. In quis nisi hendrerit metus lacinia aliquam. Donec dictum sagittis tellus et feugiat. Ut lobortis eget erat vel ornare. Donec hendrerit aliquam mauris id pulvinar. Maecenas tempor convallis erat, id porta arcu bibendum nec. ", "info");
+    const lorem = new LoremIpsum({
+      sentencesPerParagraph: {
+        max: 8,
+        min: 4
+      },
+      wordsPerSentence: {
+        max: 16,
+        min: 4
+      }
+    });
+    AlertPopup("Terms and Conditions", lorem.generateParagraphs(1), "info");
   };
 
   const handleCheckboxChange = (event) => {
