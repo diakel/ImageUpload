@@ -25,7 +25,7 @@ const Playground = () => {
   const [fileLink, setFileLink] = useState();
   const [selectedSculpture, setSelectedSculpture] = useState("");
   const showTermsPopup = () => {
-    AlertPopup("Terms and Conditions", "Just a placeholder, ignore it for now", "info");
+    AlertPopup("Terms and Conditions", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac vehicula eros, eget vulputate ipsum. Donec iaculis turpis nec eros bibendum, nec faucibus felis fermentum. In congue in erat sed cursus. Etiam quis justo at enim efficitur pellentesque id eu ligula. Proin suscipit mollis elementum. Pellentesque finibus orci ut orci ullamcorper, in lobortis neque congue. Fusce accumsan dolor ut felis dapibus, at consequat diam laoreet. In quis nisi hendrerit metus lacinia aliquam. Donec dictum sagittis tellus et feugiat. Ut lobortis eget erat vel ornare. Donec hendrerit aliquam mauris id pulvinar. Maecenas tempor convallis erat, id porta arcu bibendum nec. ", "info");
   };
 
   const handleCheckboxChange = (event) => {
@@ -77,11 +77,14 @@ const Playground = () => {
           },
           didOpen: () => {
             Swal.showLoading();
+            /*
             if (selectedSculpture === "butterfly") {
               key = `test/image/${file.name}`;
             } else {
               key = `test/imageBee/${file.name}`;
             }
+            */
+            key = `test/image/${file.name}`;
             content_type = file.type;
             res = null;
             getSignedUrl({ key, content_type }).then((response) => {
@@ -89,7 +92,7 @@ const Playground = () => {
               // console.log(res);
               // document.getElementById("chosenImage").src = URL.createObjectURL(file);
               uploadFileToSignedUrl(
-                res.data.signedUrl,
+                response.data.signedUrl,
                 file,
                 content_type,
                 (progressEvent) => {
@@ -102,9 +105,9 @@ const Playground = () => {
                 },
                 () => {
                   AlertPopup("Success", "Your file was uploaded!", "success");
-                  setFileLink("res.data.fileLink");
+                  setFileLink("response.data.fileLink");
                   setFile(null);
-                  document.getElementById("chosenImage").src = "";
+                  //document.getElementById("chosenImage").src = "";
                 }
               ).catch(() => {
                 AlertPopup("Error", "Sorry, something went wrong with the upload", "error");
@@ -155,7 +158,7 @@ const Playground = () => {
           style = {{ marginLeft: "20px"}}
         />
         Bee
-      </label>
+      </label> 
       <div className = "uploadButton" style={{ marginTop: "15px"}}>
         <button id="uploadB" onClick={onUploadClick}>Upload</button>
       </div>
