@@ -103,6 +103,7 @@ const Playground = () => {
                 () => {
                   AlertPopup("Success", "Your file was uploaded!", "success");
                   setFileLink("res.data.fileLink");
+                  setFile(null);
                   document.getElementById("chosenImage").src = "";
                 }
               ).catch(() => {
