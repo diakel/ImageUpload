@@ -36,7 +36,7 @@ const Playground = () => {
         min: 4
       }
     });
-    AlertPopup("Terms and Conditions", lorem.generateParagraphs(1), "info");
+    AlertPopup("Terms and Conditions", lorem.generateParagraphs(3), "info");
   };
 
   const handleCheckboxChange = (event) => {
@@ -73,7 +73,7 @@ const Playground = () => {
     */
   };
   const onUploadClick = (e) => {
-    if (file && selectedSculpture) {
+    if (file) {
       if (file.size > MAX_UPLOAD_SIZE) {
         AlertPopup("Error", "Sorry, your file is too big", "error");
       } else {
@@ -148,6 +148,7 @@ const Playground = () => {
             <img id="chosenImage" src={fileLink} />
           </div>
         </div>
+        {/* 
         <label className = "sculpSelect">
         <input
           type="radio"
@@ -170,7 +171,8 @@ const Playground = () => {
         />
         Bee
       </label> 
-      <div className = "uploadButton" style={{ marginTop: "15px"}}>
+        */}
+      <div className = "uploadButton" style={{ marginTop: "42.5px"}}>
         <button id="uploadB" onClick={onUploadClick}>Upload</button>
       </div>
       <div className="consent">

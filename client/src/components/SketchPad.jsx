@@ -3,6 +3,7 @@ import CanvasDraw from "react-canvas-draw";
 import { getSignedUrl, uploadFileToSignedUrl } from "../api";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from "uuid";
+import { LoremIpsum } from "lorem-ipsum";
 
 // Completely unrefactored
 
@@ -23,7 +24,18 @@ const SketchPad = () => {
   const canvasRef = useRef(null);
 
   const showTermsPopup = () => {
-    AlertPopup("Terms and Conditions", "Just a placeholder, ignore it for now", "info");
+    const lorem = new LoremIpsum({
+      sentencesPerParagraph: {
+        max: 8,
+        min: 4
+      },
+      wordsPerSentence: {
+        max: 16,
+        min: 4
+      }
+    });
+    AlertPopup("Terms and Conditions", lorem.generateParagraphs(3), "info");
+    //AlertPopup("Terms and Conditions", "Just a placeholder, ignore it for now", "info");
   };
 
   const URLtoBlob = (dataURL) => {
