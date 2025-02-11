@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { getSignedUrl, uploadFileToSignedUrl } from "../api";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from "uuid";
-import { LoremIpsum } from "lorem-ipsum";
 
 const MAX_UPLOAD_SIZE = 10485760; // in bytes (set to 10 MB)
 
@@ -26,17 +25,7 @@ const Playground = () => {
   const [fileLink, setFileLink] = useState();
   const [selectedSculpture, setSelectedSculpture] = useState("");
   const showTermsPopup = () => {
-    const lorem = new LoremIpsum({
-      sentencesPerParagraph: {
-        max: 8,
-        min: 4
-      },
-      wordsPerSentence: {
-        max: 16,
-        min: 4
-      }
-    });
-    AlertPopup("Terms and Conditions", lorem.generateParagraphs(3), "info");
+    AlertPopup("Terms and Conditions", "Here will be Terms and Condition detailing file storage and image usage", "info");
   };
 
   const handleCheckboxChange = (event) => {
@@ -73,7 +62,7 @@ const Playground = () => {
     */
   };
   const onUploadClick = (e) => {
-    if (file) {
+    if (file && selectedSculpture) {
       if (file.size > MAX_UPLOAD_SIZE) {
         AlertPopup("Error", "Sorry, your file is too big", "error");
       } else {
@@ -88,14 +77,12 @@ const Playground = () => {
           },
           didOpen: () => {
             Swal.showLoading();
-            /*
             if (selectedSculpture === "butterfly") {
               key = `test/image/${file.name}`;
             } else {
               key = `test/imageBee/${file.name}`;
             }
-            */
-            key = `test/image/${file.name}`;
+            // key = `test/image/${file.name}`;
             content_type = file.type;
             // res = null;
             getSignedUrl({ key, content_type }).then((response) => {
@@ -148,7 +135,6 @@ const Playground = () => {
             <img id="chosenImage" src={fileLink} />
           </div>
         </div>
-        {/* 
         <label className = "sculpSelect">
         <input
           type="radio"
@@ -171,8 +157,7 @@ const Playground = () => {
         />
         Bee
       </label> 
-        */}
-      <div className = "uploadButton" style={{ marginTop: "42.5px"}}>
+      <div className = "uploadButton" style={{ marginTop: "20px"}}>
         <button id="uploadB" onClick={onUploadClick}>Upload</button>
       </div>
       <div className="consent">

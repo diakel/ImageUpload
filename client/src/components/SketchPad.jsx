@@ -3,7 +3,6 @@ import CanvasDraw from "react-canvas-draw";
 import { getSignedUrl, uploadFileToSignedUrl } from "../api";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from "uuid";
-import { LoremIpsum } from "lorem-ipsum";
 
 // Completely unrefactored
 
@@ -21,22 +20,16 @@ function AlertPopup(title, text, icon) {
 
 const SketchPad = () => {
   const [color, setColor] = useState("#ffffff");
+  const [selectedSculpture, setSelectedSculpture] = useState("");
   const canvasRef = useRef(null);
 
   const showTermsPopup = () => {
-    const lorem = new LoremIpsum({
-      sentencesPerParagraph: {
-        max: 8,
-        min: 4
-      },
-      wordsPerSentence: {
-        max: 16,
-        min: 4
-      }
-    });
-    AlertPopup("Terms and Conditions", lorem.generateParagraphs(3), "info");
-    //AlertPopup("Terms and Conditions", "Just a placeholder, ignore it for now", "info");
+    AlertPopup("Terms and Conditions", "Here will be Terms and Condition detailing file storage and image usage", "info");
   };
+
+  const handleCheckboxChange = (event) => {
+    setSelectedSculpture(event.target.value);
+  };  
 
   const URLtoBlob = (dataURL) => {
     const byteString = atob(dataURL.split(",")[1]);
@@ -55,6 +48,10 @@ const SketchPad = () => {
       AlertPopup("Error", "Please, draw something first", "warning");
       return;
     }
+    if (!selectedSculpture) {
+      AlertPopup("Error", "Please, select a sculpture", "warning");
+      return;
+    }
     var imageURL = canvasRef.current.getDataURL();
     const blob = URLtoBlob(imageURL);
     const now = new Date();
@@ -64,7 +61,13 @@ const SketchPad = () => {
     // const fileName = `sketch_${uuidv4()}.png`;
     const file = new File([blob], fileName, { type: "image/jpg" });
     const content_type = file.type;
-    const key = `test/image/${file.name}`;
+    var key = null;
+    if (selectedSculpture === "butterfly") {
+      key = `test/image/${file.name}`;
+    } else {
+      key = `test/imageBee/${file.name}`;
+    }
+    // const key = `test/image/${file.name}`;
     // var res = null;
     getSignedUrl({ key, content_type }).then((response) => {
       // res = response;
@@ -134,6 +137,8 @@ const SketchPad = () => {
             padding: "8px",
             border: "1px solid rgba(0,0,0)",
             borderRadius: "25px",
+            marginRight: "20px",
+            marginLeft: "20px",
             background: "transparent",
             appearance: "none",
             cursor: "pointer",
@@ -142,7 +147,29 @@ const SketchPad = () => {
         />
         <button id="drawButton" onClick={() => canvasRef.current.clear()}>Clear</button>
         <button id="drawButton" onClick={() => canvasRef.current.undo()}>Undo</button>
-        <div className = "uploadButton" style={{ marginTop: "15px", marginBottom: "0px"}}>
+        <label className = "sculpSelect">
+        <input
+          type="radio"
+          name="sculptureChoice"
+          value="butterfly"
+          checked={selectedSculpture === "butterfly"}
+          onChange={handleCheckboxChange}
+        />
+        Butterfly
+        </label>
+
+        <label className = "sculpSelect">
+        <input
+          type="radio"
+          name="sculptureChoice"
+          value="bee"
+          checked={selectedSculpture === "bee"}
+          onChange={handleCheckboxChange}
+          style = {{ marginLeft: "20px"}}
+        />
+        Bee
+        </label> 
+        <div className = "uploadButton" style={{ marginTop: "10px", marginBottom: "0px"}}>
           <button id="uploadB" onClick={onUploadClick}>Upload</button>
         </div>
         <div className="consent" style={{ width: "222px", marginTop: "0px"}}>
