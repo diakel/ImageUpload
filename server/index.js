@@ -2,9 +2,10 @@ import express from 'express'
 import config from './config/index.js'
 import s3Router from './routes/misc.js'
 import cors from 'cors'
-import { createRequire } from "module";
+// import { createRequire } from "module";
+import { WebSocketServer } from 'ws';
 
-const require = createRequire(import.meta.url);
+// const require = createRequire(import.meta.url);
 
 const app = express()
 
@@ -13,7 +14,7 @@ app.use(cors({
     origin: 'http://localhost:3000',
     //origin: 'http://10.159.23.119:5173'
     origin: 'https://image-upload-frontend-one.vercel.app'
-    // origin: 'http://192.168.0.102:5173'
+    //origin: 'http://192.168.0.102:5173'
 }))
 
 app.use('/api/s3', s3Router)
@@ -24,9 +25,9 @@ app.listen(config.PORT, () => {
 
 
 // WebSocket server
-const WebSocket = require('ws');
+// const WebSocket = require('ws');
 
-const wss = new WebSocket.Server({ port: 8080 });
+const wss = new WebSocketServer({ port: 8080 });
 
 var connections = []
 
