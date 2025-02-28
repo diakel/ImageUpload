@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 
-const ws = new WebSocket('ws://localhost:8080')
+const ws = new WebSocket('ws://image-upload-backend-rose.vercel.app:8080')
 ws.onopen = () => {
   console.log('connection to ws established')
 }
