@@ -1,5 +1,6 @@
 import axios from "axios";
 import config from "../config";
+import ws from "../main.jsx"
 
 const apiClient = axios.create({
   baseURL: config.API_BASE_URL,
@@ -17,6 +18,7 @@ export async function getSignedUrl({ key, content_type }) {
 
 export async function uploadFileToSignedUrl(
   signedUrl,
+  fileLink,
   file,
   contentType,
   onProgress,
@@ -31,6 +33,17 @@ export async function uploadFileToSignedUrl(
     })
     .then((response) => {
       // console.log("Put request returned succesfully \n");
+      // const ws = new WebSocket('ws://192.168.0.102:8080')
+      // ws.onopen = () => {
+      //  console.log('ws opened on browser')
+      //  ws.send('image sent')
+      //  ws.close()
+      // }
+      // ws.close();
+      ws.send(JSON.stringify({
+        url: fileLink,
+        duration: 1
+      }));
       onComplete(response);
     })
     .catch((err) => {

@@ -91,6 +91,7 @@ const Playground = () => {
               // document.getElementById("chosenImage").src = URL.createObjectURL(file);
               uploadFileToSignedUrl(
                 response.data.signedUrl,
+                response.data.fileLink,
                 file,
                 content_type,
                 (progressEvent) => {

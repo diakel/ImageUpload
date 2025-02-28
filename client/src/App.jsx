@@ -52,7 +52,7 @@ function App() {
   const [active, setActive] = useState(areas[0]);
   return (
     <div className="App">
-      <div className="header"><img className="logo" src="/logo_butterfly.png" alt="logo"/></div>
+      <div className="header"><img className="logo" src="/logo_bee.png" alt="logo"/></div>
       <div className="Tabs"> <TabGroup active={active} setActive={setActive} /> </div>
       <Container style={{ display: "flex", justifyContent: "center" }}>
         {active === areas[0] && <Playground />}
