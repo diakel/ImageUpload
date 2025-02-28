@@ -32,10 +32,12 @@ export async function uploadFileToSignedUrl(
       },
     })
     .then((response) => {
-      ws.send(JSON.stringify({
-        url: fileLink,
-        duration: 1
-      }));
+      if (ws) {
+        ws.send(JSON.stringify({
+          url: fileLink,
+          duration: 1
+        }));
+      }
       onComplete(response);
     })
     .catch((err) => {
