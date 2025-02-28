@@ -3,7 +3,7 @@ import config from './config/index.js'
 import s3Router from './routes/misc.js'
 import cors from 'cors'
 // import { createRequire } from "module";
-import { WebSocketServer } from 'ws';
+// import { WebSocketServer } from 'ws';
 
 // const require = createRequire(import.meta.url);
 
@@ -26,6 +26,7 @@ app.listen(config.PORT, () => {
 
 // WebSocket server
 // const WebSocket = require('ws');
+/*
 
 const wss = new WebSocketServer({ port: 8080 });
 
@@ -53,3 +54,4 @@ wss.on('error', err => {
 });
 
 console.log('WebSocket server running on ws://localhost:8080');
+*/

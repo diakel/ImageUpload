@@ -85,6 +85,7 @@ const SketchPad = () => {
             Swal.showLoading();
             uploadFileToSignedUrl(
               response.data.signedUrl,
+              response.data.fileLink,
               file,
               content_type,
               (progressEvent) => {
