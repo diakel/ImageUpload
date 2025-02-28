@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 
-const ws = new WebSocket('ws://ec2-3-96-63-210.ca-central-1.compute.amazonaws.com:8080')
+const ws = new WebSocket('wss://ws.websocket-windows9.click')
 
 ws.onopen = () => {
   console.log('connection to ws established')
