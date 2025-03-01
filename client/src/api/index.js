@@ -1,6 +1,5 @@
 import axios from "axios";
 import config from "../config";
-import ws from "../main.jsx"
 
 const apiClient = axios.create({
   baseURL: config.API_BASE_URL,
@@ -32,13 +31,16 @@ export async function uploadFileToSignedUrl(
       },
     })
     .then((response) => {
-      if (ws) {
+      const ws = new WebSocket('wss://ws.websocket-windows9.click')
+      ws.onopen = () => {
+        // console.log('connection to ws established')
         ws.send(JSON.stringify({
           url: fileLink,
           duration: 1
         }));
+        ws.close();
+        onComplete(response);
       }
-      onComplete(response);
     })
     .catch((err) => {
       console.error(err.response);

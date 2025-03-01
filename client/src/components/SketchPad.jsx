@@ -19,7 +19,7 @@ function AlertPopup(title, text, icon) {
 };
 
 const SketchPad = () => {
-  const [color, setColor] = useState("#ffffff");
+  const [color, setColor] = useState("#000000");
   const [selectedSculpture, setSelectedSculpture] = useState("");
   const canvasRef = useRef(null);
 
@@ -52,7 +52,22 @@ const SketchPad = () => {
       AlertPopup("Error", "Please, select a sculpture", "warning");
       return;
     }
-    var imageURL = canvasRef.current.getDataURL();
+
+    const canvasDraw = canvasRef.current.canvasContainer.children[1];
+    const tempCanvas = document.createElement("canvas");
+    const ctx = tempCanvas.getContext("2d");
+  
+    tempCanvas.width = canvasDraw.width;
+    tempCanvas.height = canvasDraw.height;
+  
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+    ctx.drawImage(canvasDraw, 0, 0);
+
+    const imageURL = tempCanvas.toDataURL("image/jpeg", 1.0);
+
+    //var imageURL = canvasRef.current.getDataURL("image/jpeg");
     const blob = URLtoBlob(imageURL);
     const now = new Date();
     const later = new Date(2100, 12, 31, 10, 0, 0, 0);
@@ -115,7 +130,7 @@ const SketchPad = () => {
 
   return (
     <div className="drawFrame" style={{ textAlign: "center" }}>
-      <div className="drawArea" style={{backgroundColor: "black"}}>
+      <div className="drawArea" style={{backgroundColor: "white"}}>
         <CanvasDraw 
           ref={canvasRef}
           brushColor={color}
@@ -123,7 +138,7 @@ const SketchPad = () => {
           brushRadius={1}
           canvasWidth={222}
           canvasHeight={336}
-          backgroundColor="#000000"
+          backgroundColor="#ffffff"
           hideGrid
         />
       </div>
