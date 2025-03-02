@@ -1,7 +1,7 @@
 import express from "express"
 import multer from "multer"
 import jpeg from "jpeg-js"
-import tf from "@tensorflow/tfjs-node"
+import tf from "@tensorflow/tfjs"
 import * as nsfwjs from "nsfwjs"
 import sharp from "sharp"
 
@@ -49,38 +49,5 @@ const load_model = async () => {
 }
 
 await load_model()
- 
-
-/*
-s3Router.post("/signed_url", async (req, res) => {
-  try {
-    let { key, content_type } = req.body;
-    key = "public/" + key;
-    const data = await createPresignedPost({ key, contentType: content_type });
-    return res.send({
-      status: "success",
-      data,
-    })
-  } catch (err) {
-    console.error(err)
-    return res.status(500).send({
-      status: "error",
-      message: err.message,
-    })
-  }
-})
-*/
-
-
-
-/*
-export async function nsfwCheck(file) {
-  const model = await nsfwjs.load();
-  const image = await tf.node.decodeImage(file, 3); // Uint8Array
-  const predictions = await model.classify(image);
-  image.dispose();
-  console.log(predictions);
-}
-*/
 
 export default nsfwChecker
