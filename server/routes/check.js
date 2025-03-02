@@ -12,7 +12,7 @@ const upload = multer()
 
 let _model;
 const load_model = async () => {
-  _model = await nsfwjs.load('https://image-upload-frontend-one.vercel.app/models/mobilenet_v2/model.json');
+  _model = await nsfwjs.load('https://windows9-bucket.s3.ca-central-1.amazonaws.com/public/mobilenet_v2/model.json');
 }
 
 load_model().then(() => {
