@@ -10,7 +10,7 @@ const SAFETY_THRESHOLD = 0.5    // if probability that an image is inappropriate
 const nsfwChecker = express.Router()
 const upload = multer()
 
-let _model
+const _model = await nsfwjs.load();
  
 const convert = async (imageBuffer) => {
   // Decoded image in UInt8 Byte array
@@ -48,6 +48,6 @@ const load_model = async () => {
   _model = await nsfwjs.load()
 }
 
-await load_model()
+//await load_model()
 
 export default nsfwChecker
