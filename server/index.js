@@ -1,11 +1,8 @@
 import express from 'express'
 import config from './config/index.js'
 import s3Router from './routes/misc.js'
+import nsfwChecker from './routes/check.js'
 import cors from 'cors'
-// import { createRequire } from "module";
-// import { WebSocketServer } from 'ws';
-
-// const require = createRequire(import.meta.url);
 
 const app = express()
 
@@ -19,39 +16,8 @@ app.use(cors({
 
 app.use('/api/s3', s3Router)
 
+app.use('/api/check', nsfwChecker)
+
 app.listen(config.PORT, () => {
     console.log(`Server listening on http://localhost:${config.PORT}`)
 })
-
-
-// WebSocket server
-// const WebSocket = require('ws');
-/*
-
-const wss = new WebSocketServer({ port: 8080 });
-
-var connections = []
-
-wss.on('connection', ws => {
-  console.log('New connection established');
-  connections.push(ws);
-
-  ws.on('message', message => {
-    console.log(`Received message: ${message}`);
-
-    connections.forEach(element => {
-      element.send(message);
-    });
-  });
-
-  ws.on('close', () => {
-    console.log('Connection closed');
-  });
-});
-
-wss.on('error', err => {
-  console.error('WebSocket Server Error:', err);
-});
-
-console.log('WebSocket server running on ws://localhost:8080');
-*/

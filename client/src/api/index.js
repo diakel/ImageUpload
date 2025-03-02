@@ -15,6 +15,22 @@ export async function getSignedUrl({ key, content_type }) {
   return response.data;
 }
 
+export async function checkForNSFWContent(imageFile) {
+  const formData = new FormData();
+  formData.append("image", imageFile);
+
+  try {
+    const response = await apiClient.post("/check/nsfw", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.error(err.response);
+  }
+}
+
 export async function uploadFileToSignedUrl(
   signedUrl,
   fileLink,

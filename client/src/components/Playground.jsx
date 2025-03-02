@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getSignedUrl, uploadFileToSignedUrl } from "../api";
+import { checkForNSFWContent, getSignedUrl, uploadFileToSignedUrl } from "../api";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from "uuid";
 
@@ -78,41 +78,46 @@ const Playground = () => {
           didOpen: () => {
             Swal.showLoading();
             if (selectedSculpture === "butterfly") {
-              key = `test/image/${file.name}`;
+              key = `test/imageBee/${file.name}`;
             } else {
               key = `test/imageBee/${file.name}`;
             }
             // key = `test/image/${file.name}`;
-            content_type = file.type;
-            // res = null;
-            getSignedUrl({ key, content_type }).then((response) => {
-              // res = response;
+            checkForNSFWContent(file).then((res) => {
               // console.log(res);
-              // document.getElementById("chosenImage").src = URL.createObjectURL(file);
-              uploadFileToSignedUrl(
-                response.data.signedUrl,
-                response.data.fileLink,
-                file,
-                content_type,
-                (progressEvent) => {
-                  if (progressEvent.lengthComputable) {
-                    var progressPercent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                    Swal.update({
-                      html: `<b>${progressPercent}%</b> <br><progress value="${progressPercent}" max="100"></progress>`,
-                    });
-                }
-                },
-                () => {
-                  AlertPopup("Success", "Your file was uploaded!", "success");
-                  setFileLink("response.data.fileLink");
-                  setFile(null);
-                  //document.getElementById("chosenImage").src = "";
-                }
-              ).catch(() => {
-                AlertPopup("Error", "Sorry, something went wrong with the upload", "error");
-              });
+              if (res.answer === "disallow") {
+                console.log("Forbidden category: ", res.category);
+                AlertPopup("Error", "Sorry, your image did not pass AI content check. Select another one.", "error");
+              } else {
+                content_type = file.type;
+                getSignedUrl({ key, content_type }).then((response) => {
+                  uploadFileToSignedUrl(
+                    response.data.signedUrl,
+                    response.data.fileLink,
+                    file,
+                    content_type,
+                    (progressEvent) => {
+                      if (progressEvent.lengthComputable) {
+                        var progressPercent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        Swal.update({
+                          html: `<b>${progressPercent}%</b> <br><progress value="${progressPercent}" max="100"></progress>`,
+                        });
+                    }
+                    },
+                    () => {
+                      AlertPopup("Success", "Your file was uploaded!", "success");
+                      setFileLink("response.data.fileLink");
+                      setFile(null);
+                    }
+                  ).catch(() => {
+                    AlertPopup("Error", "Sorry, something went wrong with the upload", "error");
+                  });
+                }).catch(() => {
+                  AlertPopup("Error", "Sorry, something went wrong with the selection", "error");
+                });
+              }
             }).catch(() => {
-             AlertPopup("Error", "Sorry, something went wrong with the selection", "error");
+              AlertPopup("Error", "Sorry, something went wrong with the AI check", "error");
             });
           },
         });

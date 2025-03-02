@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import CanvasDraw from "react-canvas-draw";
-import { getSignedUrl, uploadFileToSignedUrl } from "../api";
+import { checkForNSFWContent, getSignedUrl, uploadFileToSignedUrl } from "../api";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from "uuid";
 
@@ -84,47 +84,62 @@ const SketchPad = () => {
     }
     // const key = `test/image/${file.name}`;
     // var res = null;
-    getSignedUrl({ key, content_type }).then((response) => {
-      // res = response;
-      if (file && content_type && key) {
-        Swal.fire({
-          title: "Upload is in progress...",
-          html: `<b>0%</b> <br><progress value="0" max="100"></progress>`,
-          allowOutsideClick: false,
-          showConfirmButton: false,
-          customClass: {
-            popup: 'rounded-alert',
-            confirmButton: 'rounded-alert'
-          },
-          didOpen: () => {
-            Swal.showLoading();
-            uploadFileToSignedUrl(
-              response.data.signedUrl,
-              response.data.fileLink,
-              file,
-              content_type,
-              (progressEvent) => {
-                if (progressEvent.lengthComputable) {
-                  var progressPercent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                  Swal.update({
-                    html: `<b>${progressPercent}%</b> <br><progress value="${progressPercent}" max="100"></progress>`,
-                  });
-              }
+    /*
+    file.arrayBuffer().then(buff => {
+      let imageArray = new Uint8Array(buff);
+      nsfwCheck(imageArray);
+    });
+    */
+    checkForNSFWContent(file).then((res) => {
+      if (res.answer === "disallow") {
+        console.log("Forbidden category: ", res.category);
+        AlertPopup("Error", "Sorry, your image did not pass AI content check. Select another one.", "error");
+      } else {
+        getSignedUrl({ key, content_type }).then((response) => {
+          // res = response;
+          if (file && content_type && key) {
+            Swal.fire({
+              title: "Upload is in progress...",
+              html: `<b>0%</b> <br><progress value="0" max="100"></progress>`,
+              allowOutsideClick: false,
+              showConfirmButton: false,
+              customClass: {
+                popup: 'rounded-alert',
+                confirmButton: 'rounded-alert'
               },
-              () => {
-                AlertPopup("Success", "Your file was uploaded!", "success");
-                canvasRef.current.clear();
-              }
-            ).catch(() => {
-              AlertPopup("Error", "Sorry, something went wrong with the upload", "error");
+              didOpen: () => {
+                Swal.showLoading();
+                uploadFileToSignedUrl(
+                  response.data.signedUrl,
+                  response.data.fileLink,
+                  file,
+                  content_type,
+                  (progressEvent) => {
+                    if (progressEvent.lengthComputable) {
+                      var progressPercent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                      Swal.update({
+                        html: `<b>${progressPercent}%</b> <br><progress value="${progressPercent}" max="100"></progress>`,
+                      });
+                  }
+                  },
+                  () => {
+                    AlertPopup("Success", "Your file was uploaded!", "success");
+                    canvasRef.current.clear();
+                  }
+                ).catch(() => {
+                  AlertPopup("Error", "Sorry, something went wrong with the upload", "error");
+                });
+              },
             });
-          },
+        } else {
+          AlertPopup("Error", "Please, select a file first", "warning");
+        }
+        }).catch(() => {
+          AlertPopup("Error", "Sorry, something went wrong with the selection", "error");
         });
-    } else {
-      AlertPopup("Error", "Please, select a file first", "warning");
-    }
+      }
     }).catch(() => {
-      AlertPopup("Error", "Sorry, something went wrong with the selection", "error");
+      AlertPopup("Error", "Sorry, something went wrong with the AI check", "error");
     });
   };
 

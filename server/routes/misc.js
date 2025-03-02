@@ -20,4 +20,5 @@ s3Router.post("/signed_url", async (req, res) => {
     })
   }
 })
+
 export default s3Router
