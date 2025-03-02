@@ -11,9 +11,8 @@ const nsfwChecker = express.Router()
 const upload = multer()
 
 let _model;
-
 const load_model = async () => {
-  _model = await nsfwjs.load()
+  _model = await nsfwjs.load('https://image-upload-frontend-one.vercel.app/models/mobilenet_v2/model.json');
 }
 
 load_model().then(() => {
