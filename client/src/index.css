@@ -90,11 +90,11 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: rgba(255, 255, 255, 1);
+  border-color: #b6b6b6;
   border-width: 1px;
 }
 button:active {
-  border-color: rgba(255, 0, 0, 1);
+  border-color: #FFF3A7;
   border-width: 1px;
 }
 
@@ -123,7 +123,7 @@ button:active {
 */
 
 .innerFrame{
-  width:236px; height:350px;
+  width:236px; height:330px;
   display:inline-block;
   border:1px dotted rgb(0, 0, 0);
   border-radius: 25px;
@@ -146,7 +146,7 @@ input[type="file"] {
 }
 
 .drawFrame{
-  width:297px; height:570px;
+  width:297px; height:590px;
   display:inline-block;
   border:1px solid rgb(0, 0, 0);
   border-radius: 60px;
@@ -163,7 +163,7 @@ input[type="file"] {
 }
 
 .custom-file-upload {
-  width:236px; height:345px;
+  width:240px; height:350px;
   display: inline-block;
   cursor: pointer;
   color: rgba(105, 101, 101, 1);
@@ -173,15 +173,24 @@ input[type="file"] {
   display: inline-block;
   margin-top: 0px;
   width: 222px; height: 30px;
-  font-size: 0.8rem;
+  font-size: 11px;
   color: rgb(105, 101, 101);
   position:relative;
 }
 
 #cloud {
-  margin-top: 125px;
+  margin-top: 76px;
 }
 
 .rounded-alert {
   border-radius: 25px;
+}
+
+.attention-icon {
+  background-image: url("data:image/svg+xml,%3Csvg width='15' height='15' viewBox='0 0 15 15' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='attention-circle'%3E%3Cpath id='union-1' fill-rule='evenodd' clip-rule='evenodd' d='M7.5 2.5C4.73858 2.5 2.5 4.73858 2.5 7.5C2.5 10.2614 4.73858 12.5 7.5 12.5C10.2614 12.5 12.5 10.2614 12.5 7.5C12.5 4.73858 10.2614 2.5 7.5 2.5ZM1.25 7.5C1.25 4.04822 4.04822 1.25 7.5 1.25C10.9518 1.25 13.75 4.04822 13.75 7.5C13.75 10.9518 10.9518 13.75 7.5 13.75C4.04822 13.75 1.25 10.9518 1.25 7.5ZM7.5 4.375C7.84518 4.375 8.125 4.65482 8.125 5V7.5C8.125 7.84518 7.84518 8.125 7.5 8.125C7.15482 8.125 6.875 7.84518 6.875 7.5V5C6.875 4.65482 7.15482 4.375 7.5 4.375Z' fill='%23E46962'/%3E%3Cpath id='union-2' d='M8.125 10C8.125 10.3452 7.84518 10.625 7.5 10.625C7.15482 10.625 6.875 10.3452 6.875 10C6.875 9.65482 7.15482 9.375 7.5 9.375C7.84518 9.375 8.125 9.65482 8.125 10Z' fill='%23E46962'/%3E%3C/g%3E%3C/svg%3E%0A");
+  height: 15px;
+  width: 15px;
+  background-repeat: no-repeat;
+  float: left;
+  margin-right: 0px;
 }

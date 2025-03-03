@@ -35,10 +35,12 @@ export async function uploadFileToSignedUrl(
   signedUrl,
   fileLink,
   file,
+  duration,
   contentType,
   onProgress,
   onComplete
 ) {
+  //onComplete({"status": 200});
   axios
     .put(signedUrl, file, {
       onUploadProgress: onProgress,
@@ -52,7 +54,7 @@ export async function uploadFileToSignedUrl(
         // console.log('connection to ws established')
         ws.send(JSON.stringify({
           url: fileLink,
-          duration: 1
+          duration: parseInt(duration)
         }));
         ws.close();
         onComplete(response);

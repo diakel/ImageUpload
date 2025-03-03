@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { checkForNSFWContent, getSignedUrl, uploadFileToSignedUrl } from "../api";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from "uuid";
+import { ScreenLockLandscapeRounded } from "@mui/icons-material";
 
 const MAX_UPLOAD_SIZE = 10485760; // in bytes (set to 10 MB)
 
@@ -23,13 +24,18 @@ const Playground = () => {
   var res = null;
   const [file, setFile] = useState();
   const [fileLink, setFileLink] = useState();
-  const [selectedSculpture, setSelectedSculpture] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [units, setDuration] = useState("hour");
   const showTermsPopup = () => {
     AlertPopup("Terms and Conditions", "Here will be Terms and Condition detailing file storage and image usage", "info");
   };
 
-  const handleCheckboxChange = (event) => {
-    setSelectedSculpture(event.target.value);
+  const handleSelectorChange = (event) => {
+    setDuration(event.target.value);
+  };
+
+  const handleInputChange = (event) => {
+    setQuantity(event.target.value);
   };
 
   const onFileSelect = (e) => {
@@ -44,31 +50,19 @@ const Playground = () => {
     setFile(new File([original_file], newFileName, { type: original_file.type }));
     //document.getElementById("chosenImage").src = URL.createObjectURL(file);
     setFileLink(URL.createObjectURL(original_file));
-    /*
-    if (selectedSculpture === "butterfly") {
-      key = `test/image/${file.name}`;
-    } else {
-      key = `test/imageBee/${file.name}`
-    }
-    content_type = file.type;
-    res = null;
-    getSignedUrl({ key, content_type }).then((response) => {
-      res = response;
-      // console.log(res);
-      document.getElementById("chosenImage").src = URL.createObjectURL(file);
-    }).catch(() => {
-     AlertPopup("Error", "Sorry, something went wrong with the selection", "error");
-    });
-    */
   };
   const onUploadClick = (e) => {
-    if (file && selectedSculpture) {
+    if (!quantity || !units) {
+      AlertPopup("Warning", "Please, set the duration.", "warning");
+      return;
+    }
+    if (file && units) {
       if (file.size > MAX_UPLOAD_SIZE) {
         AlertPopup("Error", "Sorry, your file is too big", "error");
       } else {
         Swal.fire({
-          title: "Upload is in progress...",
-          html: `<b>0%</b> <br><progress value="0" max="100"></progress>`,
+          title: "Analysing the image for inappropriate content...",
+          //html: `<b>0%</b> <br><progress value="0" max="100"></progress>`,
           allowOutsideClick: false,
           showConfirmButton: false,
           customClass: {
@@ -77,12 +71,7 @@ const Playground = () => {
           },
           didOpen: () => {
             Swal.showLoading();
-            if (selectedSculpture === "butterfly") {
-              key = `test/imageBee/${file.name}`;
-            } else {
-              key = `test/imageBee/${file.name}`;
-            }
-            // key = `test/image/${file.name}`;
+            key = `test/imageBee/${file.name}`;
             checkForNSFWContent(file).then((res) => {
               // console.log(res);
               if (res.answer === "disallow") {
@@ -90,24 +79,34 @@ const Playground = () => {
                 AlertPopup("Error", "Sorry, your image did not pass AI content check. Select another one.", "error");
               } else {
                 content_type = file.type;
+                let seconds = 0;
+                switch (units) {
+                  case "hour": seconds = 3600; break;
+                  case "day": seconds = 86400; break;
+                  case "week": seconds = 604800; break;
+                  case "month": seconds = 2629746; 
+                }
+                const duration = quantity * seconds;
                 getSignedUrl({ key, content_type }).then((response) => {
                   uploadFileToSignedUrl(
                     response.data.signedUrl,
                     response.data.fileLink,
                     file,
+                    duration,
                     content_type,
                     (progressEvent) => {
                       if (progressEvent.lengthComputable) {
                         var progressPercent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                         Swal.update({
+                          title: "Uploading the image...",
                           html: `<b>${progressPercent}%</b> <br><progress value="${progressPercent}" max="100"></progress>`,
                         });
                     }
                     },
                     () => {
                       AlertPopup("Success", "Your file was uploaded!", "success");
-                      setFileLink("response.data.fileLink");
-                      setFile(null);
+                      setFileLink();
+                      setFile();
                     }
                   ).catch(() => {
                     AlertPopup("Error", "Sorry, something went wrong with the upload", "error");
@@ -135,34 +134,38 @@ const Playground = () => {
           <div id="previewArea" className = "innerFrame">
             <label htmlFor="fileUpload" className="custom-file-upload">
             <img id="cloud" src="/Vector.png" alt="A picture of a cloud"></img>
-              <p>Choose your image</p>
+              <p style = {{ marginTop: "10px", marginBottom: "5px" }}>Choose your image</p>
+              <p style = {{ marginTop: "0px", fontSize: "10px", color: "#ADAAAA" }}>Images/GIFs Under 10MB</p>
+              <p style = {{ display: "inline-block", width: "162px", marginTop: "60px", fontSize: "10px", color: "#ADAAAA" }}>
+                <i className='attention-icon'></i>
+                AI moderation enabled (there might be some mistakes).
+              </p>
             </label>
             <input id = "fileUpload" type="file" accept="*" onChange={onFileSelect} />
             <img id="chosenImage" src={fileLink} />
           </div>
         </div>
-        <label className = "sculpSelect">
+      <form style = {{ display: "inline-block", width: "240px", marginBottom: "5px"}}>
+        <label className = "durSelect" style = {{ display: "inline-block", width: "240px", fontSize: "12px", color: 'rgba(105, 101, 101, 1)'}}>
+          How long do you want your image to be displayed for?
+        </label>
         <input
-          type="radio"
-          name="sculptureChoice"
-          value="butterfly"
-          checked={selectedSculpture === "butterfly"}
-          onChange={handleCheckboxChange}
-        />
-        Butterfly
-      </label>
+          value = {quantity}
+          onChange={handleInputChange}
+          type="number" id="dur" min = "1" max = "100" 
+          style = {{ display: "inline-block", height: "20px", width: "80px", marginTop: "5px", marginRight: "9px", borderRadius: "5px", backgroundColor: "white", color: "black", border: "1px solid"}} />
+        <select 
+          name="durationChoice"
+          value={units}
+          onChange={handleSelectorChange}
+          style = {{ width: "82px", height: "25px", borderRadius: "5px", backgroundColor: "white", color: "black", border: "1px solid"}}>  
+          <option value="hour">hour(s)</option>
+          <option value="day">day(s)</option>
+          <option value="week">week(s)</option>
+          <option value="month">month(s)</option>
+        </select>
+      </form>
 
-      <label className = "sculpSelect">
-        <input
-          type="radio"
-          name="sculptureChoice"
-          value="bee"
-          checked={selectedSculpture === "bee"}
-          onChange={handleCheckboxChange}
-          style = {{ marginLeft: "20px"}}
-        />
-        Bee
-      </label> 
       <div className = "uploadButton" style={{ marginTop: "20px"}}>
         <button id="uploadB" onClick={onUploadClick}>Upload</button>
       </div>

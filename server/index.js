@@ -3,21 +3,22 @@ import config from './config/index.js'
 import s3Router from './routes/misc.js'
 import nsfwChecker from './routes/check.js'
 import cors from 'cors'
+import { loadModel } from './model.js'
 
 const app = express()
 
 app.use(express.json())
 app.use(cors({
     origin: 'http://localhost:3000',
-    //origin: 'http://10.159.23.119:5173'
-    origin: 'https://image-upload-frontend-one.vercel.app'
-    //origin: 'http://192.168.0.102:5173'
+    origin: process.env.WEBSITE_FRONTEND_URL
 }))
 
 app.use('/api/s3', s3Router)
-
+ 
 app.use('/api/check', nsfwChecker)
 
-app.listen(config.PORT, () => {
-    console.log(`Server listening on http://localhost:${config.PORT}`)
+loadModel().then(() => {
+    app.listen(config.PORT, () => {
+        console.log(`Server listening on http://localhost:${config.PORT}`)
+    })
 })
