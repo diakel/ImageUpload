@@ -4,20 +4,12 @@ import jpeg from "jpeg-js"
 import tf from "@tensorflow/tfjs"
 import * as nsfwjs from "nsfwjs"
 import sharp from "sharp"
+import { getModel } from "../model.js"
 
 const SAFETY_THRESHOLD = 0.5    // if probability that an image is inappropriate is higher than this threshold, it will be rejected
 
 const nsfwChecker = express.Router()
 const upload = multer()
-
-let _model;
-const load_model = async () => {
-  _model = await nsfwjs.load('https://windows9-bucket.s3.ca-central-1.amazonaws.com/public/mobilenet_v2/model.json');
-}
-
-load_model().then(() => {
-  console.log("model loaded");
-})
 
 const convert = async (imageBuffer) => {
   // Decoded image in UInt8 Byte array
@@ -36,10 +28,10 @@ const convert = async (imageBuffer) => {
 }
   
 nsfwChecker.post('/nsfw', upload.single('image'), async (req, res) => {
-  res.send({ answer: "test test test reaching", category: "" });
   console.log('reached the check file');
   if (!req.file) res.status(400).send('Missing image multipart/form-data')
   else {
+    const _model = getModel();
     const image = await convert(req.file.buffer)
     console.log('converted');
     const predictions = await _model.classify(image)
@@ -54,7 +46,5 @@ nsfwChecker.post('/nsfw', upload.single('image'), async (req, res) => {
     return res.send({ answer: "allow", category: "" });
   }
 })
-
-//await load_model()
 
 export default nsfwChecker
