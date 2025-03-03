@@ -9,8 +9,8 @@
     "routes": [
         {
             "src": "/api/check/nsfw",
-            "dest": "/routes/check.js",
-            "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+            "dest": "./index.js",
+            "methods": ["POST"],
             "headers": {
               "Access-Control-Allow-Origin": "https://image-upload-frontend-one.vercel.app"
             }
