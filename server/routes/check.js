@@ -36,6 +36,7 @@ const convert = async (imageBuffer) => {
 }
   
 nsfwChecker.post('/nsfw', upload.single('image'), async (req, res) => {
+  res.send({ answer: "test test test reaching", category: "" });
   console.log('reached the check file');
   if (!req.file) res.status(400).send('Missing image multipart/form-data')
   else {
