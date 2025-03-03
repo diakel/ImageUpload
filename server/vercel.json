@@ -9,11 +9,19 @@
     "routes": [
         {
             "src": "/api/check/nsfw",
-            "dest": "/"
+            "dest": "/",
+            "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+            "headers": {
+              "Access-Control-Allow-Origin": "https://image-upload-frontend-one.vercel.app/"
+            }
         },
         {
             "src": "/api/s3/signed_url",
-            "dest": "/"
+            "dest": "/",
+            "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+            "headers": {
+              "Access-Control-Allow-Origin": "*"
+            }
         }
     ]
 }
