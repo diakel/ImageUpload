@@ -8,20 +8,8 @@
     ],
     "routes": [
         {
-            "src": "/api/check/nsfw",
-            "dest": "/",
-            "methods": ["POST"],
-            "headers": {
-              "Access-Control-Allow-Origin": "https://image-upload-frontend-one.vercel.app"
-            }
-        },
-        {
-            "src": "/api/s3/signed_url",
-            "dest": "/",
-            "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-            "headers": {
-              "Access-Control-Allow-Origin": "*"
-            }
+            "src": "/(.*)",
+            "dest": "/"
         }
     ]
 }

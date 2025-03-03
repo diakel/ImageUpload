@@ -1,16 +1,17 @@
 import express from "express"
 import multer from "multer"
 import jpeg from "jpeg-js"
-import tf from "@tensorflow/tfjs"
+import tf from "@tensorflow/tfjs-node"
 import * as nsfwjs from "nsfwjs"
 import sharp from "sharp"
-import { getModel } from "../model.js"
 
 const SAFETY_THRESHOLD = 0.5    // if probability that an image is inappropriate is higher than this threshold, it will be rejected
 
 const nsfwChecker = express.Router()
 const upload = multer()
 
+let _model
+ 
 const convert = async (imageBuffer) => {
   // Decoded image in UInt8 Byte array
   const data = await sharp(imageBuffer).toFormat("jpeg").toBuffer();
@@ -26,16 +27,12 @@ const convert = async (imageBuffer) => {
   
   return tf.tensor3d(values, [image.height, image.width, numChannels], 'int32')
 }
-  
+ 
 nsfwChecker.post('/nsfw', upload.single('image'), async (req, res) => {
-  console.log('reached the check file');
   if (!req.file) res.status(400).send('Missing image multipart/form-data')
   else {
-    const _model = getModel();
     const image = await convert(req.file.buffer)
-    console.log('converted');
     const predictions = await _model.classify(image)
-    console.log('classified');
     for (const item of predictions) {
       if (item.className !== "Drawing" && item.className !== "Neutral") {
         if (item.probability > SAFETY_THRESHOLD) {
@@ -46,5 +43,44 @@ nsfwChecker.post('/nsfw', upload.single('image'), async (req, res) => {
     return res.send({ answer: "allow", category: "" });
   }
 })
+ 
+const load_model = async () => {
+  _model = await nsfwjs.load()
+}
+
+await load_model()
+ 
+
+/*
+s3Router.post("/signed_url", async (req, res) => {
+  try {
+    let { key, content_type } = req.body;
+    key = "public/" + key;
+    const data = await createPresignedPost({ key, contentType: content_type });
+    return res.send({
+      status: "success",
+      data,
+    })
+  } catch (err) {
+    console.error(err)
+    return res.status(500).send({
+      status: "error",
+      message: err.message,
+    })
+  }
+})
+*/
+
+
+
+/*
+export async function nsfwCheck(file) {
+  const model = await nsfwjs.load();
+  const image = await tf.node.decodeImage(file, 3); // Uint8Array
+  const predictions = await model.classify(image);
+  image.dispose();
+  console.log(predictions);
+}
+*/
 
 export default nsfwChecker
