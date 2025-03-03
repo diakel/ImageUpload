@@ -36,10 +36,13 @@ const convert = async (imageBuffer) => {
 }
   
 nsfwChecker.post('/nsfw', upload.single('image'), async (req, res) => {
+  console.log('reached the check file');
   if (!req.file) res.status(400).send('Missing image multipart/form-data')
   else {
     const image = await convert(req.file.buffer)
+    console.log('converted');
     const predictions = await _model.classify(image)
+    console.log('classified');
     for (const item of predictions) {
       if (item.className !== "Drawing" && item.className !== "Neutral") {
         if (item.probability > SAFETY_THRESHOLD) {

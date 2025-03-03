@@ -9,19 +9,11 @@
     "routes": [
         {
             "src": "/api/check/nsfw",
-            "dest": "/",
-            "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-            "headers": {
-              "Access-Control-Allow-Origin": "*"
-            }
+            "dest": "/"
         },
         {
             "src": "/api/s3/signed_url",
-            "dest": "/",
-            "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-            "headers": {
-              "Access-Control-Allow-Origin": "*"
-            }
+            "dest": "/"
         }
     ]
 }
