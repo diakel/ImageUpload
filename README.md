@@ -25,10 +25,12 @@ w3schools - some basic things
 
 https://sweetalert2.github.io/#examples - custom alerts
 
-ChatGPT for debugging and some html code
+ChatGPT for debugging and some code
 
 https://vinyldavyl.medium.com/how-to-deploy-a-fullstack-nodejs-and-express-app-on-vercel-c79d433eeb6 - deployment with vercel
 
 https://github.com/embiem/react-canvas-draw/tree/master - react-canvas-draw library docs
 
 https://www.npmjs.com/package/nsfwjs/v/2.2.0#node-js-app - documentation for nsfwjs (the node.js app part)
+
+https://developers.cloudflare.com/workers-ai/models/stable-diffusion-v1-5-img2img/ - Stable Diffusion with img2img on Cloudflare Workers AI

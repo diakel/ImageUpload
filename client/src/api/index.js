@@ -31,6 +31,41 @@ export async function checkForNSFWContent(imageFile) {
   }
 }
 
+export async function generateImage(prompt, image) {
+  let response = null;
+  if (image) {
+    const base64Image = btoa(String.fromCharCode(...image));
+    response = await fetch(config.API_BASE_URL+"/ai/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+        image: base64Image,
+      }),
+    });
+  } else {
+    response = await fetch(config.API_BASE_URL+"/ai/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+        image: null,
+      }),
+    });
+  }
+  if (response.ok) {
+    const blob = await response.blob();
+    return blob;
+  } else {
+    console.log(response);
+    return error;
+  }
+}
+
 export async function uploadFileToSignedUrl(
   signedUrl,
   fileLink,

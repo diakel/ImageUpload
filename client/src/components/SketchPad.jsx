@@ -1,6 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import CanvasDraw from "react-canvas-draw";
-import { checkForNSFWContent, getSignedUrl, uploadFileToSignedUrl } from "../api";
+import { checkForNSFWContent, generateImage, getSignedUrl, uploadFileToSignedUrl } from "../api";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from "uuid";
 
@@ -21,8 +21,13 @@ function AlertPopup(title, text, icon) {
 const SketchPad = () => {
   const [color, setColor] = useState("#000000");
   const [quantity, setQuantity] = useState(1);
+  const [prompt, setPrompt] = useState("");
   const [units, setDuration] = useState("hour");
   const canvasRef = useRef(null);
+  const [blob, setBlob] = useState(); // for AI image to send
+  const [fileLink, setFileLink] = useState(); // for AI image
+  const [loading, setLoading] = useState(false);  // blur for AI
+  const [active, setActive] = useState(false);
 
   const showTermsPopup = () => {
     AlertPopup("Terms and Conditions", "Here will be Terms and Condition detailing file storage and image usage", "info");
@@ -36,6 +41,68 @@ const SketchPad = () => {
     setQuantity(event.target.value);
   }; 
 
+  const handlePromptChange = (event) => {
+    setPrompt(event.target.value);
+  }; 
+
+  const onAiClick = () => {
+    let sketch = null;
+    setLoading(true);
+    setActive(!active);
+    if (active) {
+      setFileLink();
+      setBlob();
+      setLoading(false);
+      return;
+    } 
+    if (JSON.parse(canvasRef.current.getSaveData()).lines.length !== 0) {
+      canvasToBlob(canvasRef).then(async (sketchBlob) => {
+        const arrayBuffer = await sketchBlob.arrayBuffer();
+        const sketch = new Uint8Array(arrayBuffer);
+        generateImage(prompt, sketch)
+          .then((data) => {
+            try {
+              setBlob(data);
+              setLoading(false);
+              setActive(true);
+              const objectURL = URL.createObjectURL(data);
+              setFileLink(objectURL);
+            } catch (err) {
+              console.error(err.response);
+              setActive(false);
+              setLoading(false);
+            }
+          })
+          .catch(() => {
+            setLoading(false);
+            AlertPopup("Error", "Couldn't generate AI image based on the sketch, please, try again. Make sure you entered the prompt.", "error");
+          });
+      }).catch((error) => {
+        console.error("Error creating Blob:", error)
+        setLoading(false);
+        setActive(false);
+      });
+    } else {
+      generateImage(prompt, sketch).then((data) => {
+        try {
+          setBlob(data);
+          setLoading(false);
+          const objectURL = URL.createObjectURL(data);
+          setFileLink(objectURL);
+        } catch (err) {
+          setActive(false);
+          setLoading(false);
+          console.error(err.response);
+        }
+      }).catch(() => {
+        setActive(false);
+        setLoading(false);
+        AlertPopup("Error", "Couldn't generate AI image, please, try again. Make sure you entered the prompt.", "error");
+      });
+    }
+  }
+
+
   const URLtoBlob = (dataURL) => {
     const byteString = atob(dataURL.split(",")[1]);
     const mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
@@ -48,16 +115,31 @@ const SketchPad = () => {
     return new Blob([arrayBuffer], { type: mimeString });
   };
 
-  const onUploadClick = (e) => {
-    if (JSON.parse(canvasRef.current.getSaveData()).lines.length === 0) {
-      AlertPopup("Error", "Please, draw something first", "warning");
-      return;
-    }
-    if (!quantity || !units) {
-      AlertPopup("Warning", "Please, set the duration.", "warning");
-      return;
-    }
+  const canvasToBlob = async (canvasRef) => {
+    return new Promise((resolve, reject) => {
+      const canvasDraw = canvasRef.current.canvasContainer.children[1];
+      const tempCanvas = document.createElement("canvas");
+      const ctx = tempCanvas.getContext("2d");
+    
+      tempCanvas.width = canvasDraw.width;
+      tempCanvas.height = canvasDraw.height;
+    
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+  
+      ctx.drawImage(canvasDraw, 0, 0);
+  
+      tempCanvas.toBlob((blob) => {
+        if (blob) {
+          resolve(blob);
+        } else {
+          reject(new Error("Failed to convert canvas to Blob"));
+        }
+      }, "image/png");
+    });
+  };
 
+  const canvasToBlobSync = (canvasRef) => {
     const canvasDraw = canvasRef.current.canvasContainer.children[1];
     const tempCanvas = document.createElement("canvas");
     const ctx = tempCanvas.getContext("2d");
@@ -72,19 +154,38 @@ const SketchPad = () => {
 
     const imageURL = tempCanvas.toDataURL("image/jpeg", 1.0);
 
-    //var imageURL = canvasRef.current.getDataURL("image/jpeg");
-    const blob = URLtoBlob(imageURL);
+    const blobSketch = URLtoBlob(imageURL);
+
+    return blobSketch;
+  }
+
+  const onUploadClick = (e) => {
+    if (JSON.parse(canvasRef.current.getSaveData()).lines.length === 0 && !blob) {
+      AlertPopup("Error", "Please, draw or generate something first", "warning");
+      return;
+    }
+    if (!quantity || !units) {
+      AlertPopup("Warning", "Please, set the duration.", "warning");
+      return;
+    }
+
+    // const blob = canvasToBlobSync(canvasRef);
     const now = new Date();
     const later = new Date(2100, 12, 31, 10, 0, 0, 0);
     const timeDiff = Math.abs(later - now);
-    const fileName = `${timeDiff}_${uuidv4()}_sketch.jpeg`;
-    const file = new File([blob], fileName, { type: "image/jpg" });
+    const fileName = `${timeDiff}_${uuidv4()}_sketchorAI.jpeg`;
+    let file = null;
+    if (!blob) {
+      const blobCanvas = canvasToBlobSync(canvasRef);
+      file = new File([blobCanvas], fileName, { type: "image/jpg" });
+    } else {
+      file = new File([blob], fileName, { type: "image/jpg" });
+    }
     const content_type = file.type;
-    const key = `test/image/${file.name}`;
+    const key = `test/imageBee/${file.name}`;
 
     Swal.fire({
-      title: "Analysing the image for inappropriate content...",
-      //html: `<b>0%</b> <br><progress value="0" max="100"></progress>`,
+      title: "Checking the image for inappropriate content...",
       allowOutsideClick: false,
       showConfirmButton: false,
       customClass: {
@@ -132,7 +233,7 @@ const SketchPad = () => {
             });
           }
         }).catch(() => {
-          AlertPopup("Error", "Sorry, something went wrong with the AI check", "error");
+          AlertPopup("Error", "Sorry, something went wrong with the AI check. Select another image.", "error");
         });
       }
     });
@@ -140,41 +241,43 @@ const SketchPad = () => {
 
   return (
     <div className="drawFrame" style={{ textAlign: "center" }}>
-      <div className="drawArea" style={{backgroundColor: "white"}}>
+      <div className={`innerFrame ${loading ? "blurred" : ""}`} style={{backgroundColor: "white", paddingTop: "8px", paddingLeft: "5px", marginBottom: "2px"}}>
         <CanvasDraw 
           ref={canvasRef}
           brushColor={color}
           lazyRadius={0}
           brushRadius={1}
-          canvasWidth={222}
-          canvasHeight={300}
+          canvasWidth={230}
+          canvasHeight={315}
           backgroundColor="#ffffff"
           hideGrid
         />
+        <img className="aiImage" src={fileLink}/>
       </div>
-      <div style={{ marginTop: "5px" }}>
+      <div style={{ marginTop: "0px" }}>
         <input 
+          id="drawButton"
           type="color" 
           value={color} 
           onChange={(e) => setColor(e.target.value)}
-          style={{ 
-            width: "70px",
-            height: "30px",
-            padding: "8px",
-            border: "1px solid rgba(0,0,0)",
-            borderRadius: "25px",
-            marginRight: "20px",
-            marginLeft: "20px",
-            background: "transparent",
-            appearance: "none",
-            cursor: "pointer",
-            WebkitAppearance: "none"
-             }}
+          style = {{
+            marginLeft: "13px"
+          }}
         />
-        <button id="drawButton" onClick={() => canvasRef.current.clear()}>Clear</button>
-        <button id="drawButton" onClick={() => canvasRef.current.undo()}>Undo</button>
+        <button id="drawButton" onClick={() => canvasRef.current.clear()} style={{padding: "4px"}}> <i className='clear-icon'></i> </button>
+        <button id="drawButton" onClick={() => canvasRef.current.undo()} style={{padding: "5px"}}><i className='undo-icon'></i></button>
 
+        <button className={`aiButton ${active ? "active" : ""}`} onClick={onAiClick} style={{ float: "right", marginRight: "25px", paddingTop: "3px", lineHeight: "2.5", width: "110px", height: "35px", marginLeft: "7px", fontSize: "12px", backgroundColor: "white", transition: "border 0.3s"}}>
+          <i className='ai-icon'></i> Generate
+        </button>
+        
         <form style = {{ display: "inline-block", width: "240px", marginBottom: "5px"}}>
+        <input
+          value = {prompt}
+          onChange={handlePromptChange}
+          type="text"
+          placeholder="Enter your AI prompt"
+          style = {{ display: "inline-block", height: "25px", width: "220px", marginTop: "8px", marginBottom: "8px", borderRadius: "5px", backgroundColor: "white", color: "black", border: "1px solid"}} />
         <label className = "durSelect" style = {{ display: "inline-block", width: "240px", fontSize: "12px", color: 'rgba(105, 101, 101, 1)'}}>
           How long do you want your image to be displayed for?
         </label>
@@ -187,7 +290,7 @@ const SketchPad = () => {
           name="durationChoice"
           value={units}
           onChange={handleSelectorChange}
-          style = {{ width: "82px", height: "25px", borderRadius: "5px", backgroundColor: "white", color: "black", border: "1px solid"}}>  
+          style = {{ width: "82px", height: "27px", borderRadius: "5px", backgroundColor: "white", color: "black", border: "1px solid"}}>  
           <option value="hour">hour(s)</option>
           <option value="day">day(s)</option>
           <option value="week">week(s)</option>

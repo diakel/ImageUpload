@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { checkForNSFWContent, getSignedUrl, uploadFileToSignedUrl } from "../api";
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from "uuid";
-import { ScreenLockLandscapeRounded } from "@mui/icons-material";
 
 const MAX_UPLOAD_SIZE = 10485760; // in bytes (set to 10 MB)
 
@@ -61,7 +60,7 @@ const Playground = () => {
         AlertPopup("Error", "Sorry, your file is too big", "error");
       } else {
         Swal.fire({
-          title: "Analysing the image for inappropriate content...",
+          title: "Checking the image for inappropriate content...",
           //html: `<b>0%</b> <br><progress value="0" max="100"></progress>`,
           allowOutsideClick: false,
           showConfirmButton: false,
@@ -129,7 +128,7 @@ const Playground = () => {
   };
   return (
     <div>
-      <div className="drawFrame">
+      <div className="drawFrame" style = {{ height: "590px"}}>
         <div className = "frame">
           <div id="previewArea" className = "innerFrame">
             <label htmlFor="fileUpload" className="custom-file-upload">
@@ -145,7 +144,7 @@ const Playground = () => {
             <img id="chosenImage" src={fileLink} />
           </div>
         </div>
-      <form style = {{ display: "inline-block", width: "240px", marginBottom: "5px"}}>
+      <form style = {{ display: "inline-block", width: "240px", marginBottom: "2px"}}>
         <label className = "durSelect" style = {{ display: "inline-block", width: "240px", fontSize: "12px", color: 'rgba(105, 101, 101, 1)'}}>
           How long do you want your image to be displayed for?
         </label>
@@ -153,12 +152,12 @@ const Playground = () => {
           value = {quantity}
           onChange={handleInputChange}
           type="number" id="dur" min = "1" max = "100" 
-          style = {{ display: "inline-block", height: "20px", width: "80px", marginTop: "5px", marginRight: "9px", borderRadius: "5px", backgroundColor: "white", color: "black", border: "1px solid"}} />
+          style = {{ height: "20px", width: "80px", marginTop: "5px", marginRight: "9px", borderRadius: "5px", backgroundColor: "white", color: "black", border: "1px solid"}} />
         <select 
           name="durationChoice"
           value={units}
           onChange={handleSelectorChange}
-          style = {{ width: "82px", height: "25px", borderRadius: "5px", backgroundColor: "white", color: "black", border: "1px solid"}}>  
+          style = {{ width: "82px", height: "27px", borderRadius: "5px", backgroundColor: "white", color: "black", border: "1px solid"}}>  
           <option value="hour">hour(s)</option>
           <option value="day">day(s)</option>
           <option value="week">week(s)</option>
