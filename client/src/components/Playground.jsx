@@ -70,7 +70,7 @@ const Playground = () => {
           },
           didOpen: () => {
             Swal.showLoading();
-            key = `test/imageBee/${file.name}`;
+            key = `test/image/${file.name}`;
             checkForNSFWContent(file).then((res) => {
               // console.log(res);
               if (res.answer === "disallow") {

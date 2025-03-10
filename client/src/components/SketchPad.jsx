@@ -182,7 +182,7 @@ const SketchPad = () => {
       file = new File([blob], fileName, { type: "image/jpg" });
     }
     const content_type = file.type;
-    const key = `test/imageBee/${file.name}`;
+    const key = `test/image/${file.name}`;
 
     Swal.fire({
       title: "Checking the image for inappropriate content...",
