@@ -153,6 +153,10 @@ button:active {
   margin:auto;
 }
 
+#chosenImage {
+  border-radius: 25px;
+}
+
 .aiImage{
   border-radius: 25px;
 }
