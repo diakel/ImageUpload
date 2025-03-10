@@ -135,9 +135,9 @@ const Playground = () => {
             <img id="cloud" src="/Vector.png" alt="A picture of a cloud"></img>
               <p style = {{ marginTop: "10px", marginBottom: "5px" }}>Choose your image</p>
               <p style = {{ marginTop: "0px", fontSize: "10px", color: "#ADAAAA" }}>JPEG/GIF Under 10MB</p>
-              <p style = {{ display: "inline-block", width: "162px", marginTop: "60px", fontSize: "10px", color: "#ADAAAA" }}>
+              <p style = {{ display: "inline-block", width: "162px", marginTop: "50px", fontSize: "10px", color: "#ADAAAA" }}>
                 <i className='attention-icon'></i>
-                AI moderation enabled (there might be some mistakes).
+                AI moderation enabled (there might be some mistakes). For perfomance, the AI check is disabled for large files.
               </p>
             </label>
             <input id = "fileUpload" type="file" accept="*" onChange={onFileSelect} />

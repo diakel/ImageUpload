@@ -31,18 +31,22 @@ nsfwChecker.post('/nsfw', upload.single('image'), async (req, res) => {
   if (!req.file) res.status(400).send('Missing image multipart/form-data')
   else {
     try {
-      const _model = getModel();
-      const image = await convert(req.file.buffer)
-      const predictions = await _model.classify(image)
-      for (const item of predictions) {
-        if (item.className !== "Drawing" && item.className !== "Neutral") {
-          if (item.probability > SAFETY_THRESHOLD) {
-            console.log("NSFW content detected: ", item.className);
-            return res.status(200).send({ answer: "disallow", category: item.className });
+      if (req.file.size > 100000) {
+        return res.status(200).send({ answer: "allow", category: "" });
+      } else {
+        const _model = getModel();
+        const image = await convert(req.file.buffer)
+        const predictions = await _model.classify(image)
+        for (const item of predictions) {
+          if (item.className !== "Drawing" && item.className !== "Neutral") {
+            if (item.probability > SAFETY_THRESHOLD) {
+              console.log("NSFW content detected: ", item.className);
+              return res.status(200).send({ answer: "disallow", category: item.className });
+            }
           }
         }
+        return res.status(200).send({ answer: "allow", category: "" });
       }
-      return res.status(200).send({ answer: "allow", category: "" });
     } catch(err) {
       console.log(err);
       return res.status(500).json({ error: err });;
