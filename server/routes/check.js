@@ -30,7 +30,7 @@ const convert = async (imageBuffer) => {
 nsfwChecker.post('/nsfw', upload.single('image'), async (req, res) => {
   if (!req.file) res.status(400).send('Missing image multipart/form-data')
   else {
-//    try {
+    try {
       const _model = getModel();
       const image = await convert(req.file.buffer)
       const predictions = await _model.classify(image)
@@ -43,10 +43,10 @@ nsfwChecker.post('/nsfw', upload.single('image'), async (req, res) => {
         }
       }
       return res.status(200).send({ answer: "allow", category: "" });
-//    } catch(err) {
-//      console.log(err);
-//      return res.status(500).json({ error: err });;
-//    }
+    } catch(err) {
+      console.log(err);
+      return res.status(500).json({ error: err });;
+    }
   }
 })
 
