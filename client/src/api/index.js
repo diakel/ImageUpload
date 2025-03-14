@@ -105,8 +105,8 @@ export async function uploadFileToSignedUrl(
         */
         //console.log(typeof b64_image);
         // console.log(base64Image)
-        ws.send(base64Image);
-        //ws.send(fileLink);
+        // ws.send(base64Image);
+        ws.send(fileLink);
         ws.close();
         onComplete(response);
       }
