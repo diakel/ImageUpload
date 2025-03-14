@@ -66,6 +66,15 @@ export async function generateImage(prompt, image) {
   }
 }
 
+const fileToBase64 = async (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result.split(",")[1]);
+    reader.onerror = (error) => reject(error);
+  });
+};
+
 export async function uploadFileToSignedUrl(
   signedUrl,
   fileLink,
@@ -75,7 +84,8 @@ export async function uploadFileToSignedUrl(
   onProgress,
   onComplete
 ) {
-  //onComplete({"status": 200});
+  //onComplete({"status": 200});  // for testing purposes
+  const base64Image = await fileToBase64(file);
   axios
     .put(signedUrl, file, {
       onUploadProgress: onProgress,
@@ -87,10 +97,16 @@ export async function uploadFileToSignedUrl(
       const ws = new WebSocket('wss://ws.websocket-windows9.click')
       ws.onopen = () => {
         // console.log('connection to ws established')
+        /*
         ws.send(JSON.stringify({
           url: fileLink,
           duration: parseInt(duration)
         }));
+        */
+        //console.log(typeof b64_image);
+        // console.log(base64Image)
+        ws.send(base64Image);
+        //ws.send(fileLink);
         ws.close();
         onComplete(response);
       }

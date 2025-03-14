@@ -4,15 +4,16 @@ import React from "react";
 import Container from "@mui/material/Container";
 import Playground from "./components/Playground";
 import SketchPad from "./components/SketchPad";
+import AI from "./components/AI";
 import styled from "styled-components";
 
-const areas = ["File", "Draw"];
+const areas = ["File", "Draw", "AI"];
 
 const Tab = styled.button.withConfig({
   shouldForwardProp: (prop) => prop !== "active"
 })`
   display: inline-block;
-  width: 145px; height: 28px; 
+  width: 96px; height: 28px; 
   line-height: 0;
   cursor: pointer;
   opacity: 1;
@@ -57,6 +58,7 @@ function App() {
       <Container style={{ display: "flex", justifyContent: "center" }}>
         {active === areas[0] && <Playground />}
         {active === areas[1] && <SketchPad />}
+        {active === areas[2] && <AI />}
       </Container>
     </div>
   );

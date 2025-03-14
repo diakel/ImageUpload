@@ -18,7 +18,7 @@ function AlertPopup(title, text, icon) {
   });  
 };
 
-const SketchPad = () => {
+const AI = () => {
   const [color, setColor] = useState("#000000");
   const [quantity, setQuantity] = useState(1);
   const [prompt, setPrompt] = useState("");
@@ -26,7 +26,7 @@ const SketchPad = () => {
   const canvasRef = useRef(null);
   const [blob, setBlob] = useState(); // for AI image to send
   const [fileLink, setFileLink] = useState(); // for AI image
-  const [loading, setLoading] = useState(false);  // blur for AI (gonna be changed)
+  const [loading, setLoading] = useState(false);  // blur for AI
   const [active, setActive] = useState(false);
 
   const showTermsPopup = () => {
@@ -316,4 +316,4 @@ const SketchPad = () => {
   );
 };
 
-export default SketchPad;
+export default AI;
