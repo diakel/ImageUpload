@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { MenuItem, Menu } from "@mui/material";
-import useFileUpload from "../hooks/useFileUplaod";
+import useFileUpload from "../hooks/useFileUpload";
 function EditAvatar({ inputId, image, name, onChange, prefix = "avatars" }) {
   const { uploadFile } = useFileUpload(onChange, prefix);
   const [file, setFile] = useState(null);

@@ -31,32 +31,18 @@ export async function checkForNSFWContent(imageFile) {
   }
 }
 
-export async function generateImage(prompt, image) {
+export async function generateImage(prompt) {
   let response = null;
-  if (image) {
-    const base64Image = btoa(String.fromCharCode(...image));
-    response = await fetch(config.API_BASE_URL+"/ai/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt: prompt,
-        image: base64Image,
-      }),
-    });
-  } else {
-    response = await fetch(config.API_BASE_URL+"/ai/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt: prompt,
-        image: null,
-      }),
-    });
-  }
+  response = await fetch(config.API_BASE_URL+"/ai/generate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      prompt: prompt,
+      image: null,
+    }),
+  });
   if (response.ok) {
     const blob = await response.blob();
     return blob;

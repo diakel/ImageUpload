@@ -4,16 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tensorflow/tfjs-node": "^4.22.0",
-    "buffer": "^6.0.3",
-    "lorem-ipsum": "^2.0.8",
-    "nsfwjs": "^4.2.1",
     "react": "^18.3.1",
     "react-canvas-draw": "^1.2.1",
     "react-dom": "^18.3.1",

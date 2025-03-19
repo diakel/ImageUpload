@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import React from "react";
 import Container from "@mui/material/Container";
-import Playground from "./components/Playground";
+import FileUpload from "./components/FileUpload";
 import SketchPad from "./components/SketchPad";
 import AI from "./components/AI";
 import styled from "styled-components";
@@ -56,7 +56,7 @@ function App() {
       <div className="header"><img className="logo" src="/logo_bee.png" alt="logo"/></div>
       <div className="Tabs"> <TabGroup active={active} setActive={setActive} /> </div>
       <Container style={{ display: "flex", justifyContent: "center" }}>
-        {active === areas[0] && <Playground />}
+        {active === areas[0] && <FileUpload />}
         {active === areas[1] && <SketchPad />}
         {active === areas[2] && <AI />}
       </Container>

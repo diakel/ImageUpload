@@ -34,3 +34,5 @@ https://github.com/embiem/react-canvas-draw/tree/master - react-canvas-draw libr
 https://www.npmjs.com/package/nsfwjs/v/2.2.0#node-js-app - documentation for nsfwjs (the node.js app part)
 
 https://developers.cloudflare.com/workers-ai/models/stable-diffusion-v1-5-img2img/ - Stable Diffusion with img2img on Cloudflare Workers AI
+
+https://cssloaders.github.io/ - spinners
