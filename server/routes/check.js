@@ -3,7 +3,7 @@ import multer from "multer"
 import jpeg from "jpeg-js"
 import * as tf from "@tensorflow/tfjs-node"
 //import * as nsfwjs from "nsfwjs"
-//import sharp from "sharp"
+import sharp from "sharp"
 import { getModel } from "../model.js"
 
 const SAFETY_THRESHOLD = 0.5    // if probability that an image is inappropriate is higher than this threshold, it will be rejected
@@ -39,7 +39,8 @@ nsfwChecker.post('/nsfw', upload.single('image'), async (req, res) => {
     try {
       const _model = getModel();
       //const image = await convert(req.file.buffer);
-      const image = tf.node.decodeImage(req.file.buffer, 3);
+      const resizedBuffer = await sharp(req.file.buffer).resize(224, 224).toBuffer();
+      const image = tf.node.decodeImage(resizedBuffer, 3);
       const predictions = await _model.classify(image);
       image.dispose();
       for (const item of predictions) {
