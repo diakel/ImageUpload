@@ -16,7 +16,7 @@ const FileUpload = () => {
 
   return (
     <div className={`drawFrame ${expandedFrame ? "expanded" : ""}`}>
-      <div className = "innerFrame" style={{width: "241px", height: "338px", marginBottom: "35px"}}>
+      <div className = "innerFrame" style={{width: "241px", height: "338px", marginBottom: "40x"}}>
         <label htmlFor="fileUpload" id="custom-file-upload">
         <img id="cloud" src="/Vector.png" alt="A picture of a cloud"></img>
           <p style = {{ marginTop: "10px", marginBottom: "5px" }}>Choose your image</p>
