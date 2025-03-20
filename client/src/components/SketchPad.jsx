@@ -6,9 +6,10 @@ const SketchPad = () => {
   const [color, setColor] = useState("#000000");
   const [radius, setRadius] = useState(1);
   const canvasRef = useRef(null);
+  const [expandedFrame, setExpandedFrame] = useState(false);
 
   return (
-    <div className="drawFrame" style={{ textAlign: "center" }}>
+    <div className={`drawFrame ${expandedFrame ? "expanded" : ""}`}>
       <div className="innerFrame" style={{backgroundColor: "white", paddingTop: "8px", paddingLeft: "5px", marginBottom: "1px"}}>
         <CanvasDraw 
           ref={canvasRef}
@@ -45,6 +46,7 @@ const SketchPad = () => {
         onSuccess={() => {
           canvasRef.current.clear();
         }}
+        setExpandedFrame={setExpandedFrame}
       />
     </div>
   );

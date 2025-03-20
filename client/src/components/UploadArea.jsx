@@ -16,9 +16,11 @@ function AlertPopup(title, text, icon) {
   });  
 };
 
-const UploadArea = ({file, onSuccess}) => {
+const UploadArea = ({file, onSuccess, setExpandedFrame}) => {
   const [quantity, setQuantity] = useState(1);
   const [units, setDuration] = useState("hour");
+  const [durationCheck, checkDuration] = useState(false);
+
   const { uploadFile } = useFileUpload(() => {
     AlertPopup("Success", "Your file was uploaded!", "success");
     onSuccess();
@@ -60,6 +62,11 @@ const UploadArea = ({file, onSuccess}) => {
       return blobSketch;
   }
 
+  const durationDropdown = () => {
+    setExpandedFrame(!durationCheck);
+    checkDuration(!durationCheck);
+  }
+
   const onUploadClick = (e) => {
     if (!quantity || !units) {
       AlertPopup("Warning", "Please, set the duration.", "warning");
@@ -83,9 +90,11 @@ const UploadArea = ({file, onSuccess}) => {
   };
   return (
     <div>
-      <input className="durDrop" id="durDrop" type="checkbox" style={{ display: "none"}} onClick={(e) => document.getElementById("durSelection").style.display = "inline-block" }/>
-      <label className="durationSelection" htmlFor="durDrop"> Duration Selection <i className='drop-icon'></i></label>
-      <form className="durSelection" id="durSelection">
+      <input className="durDrop" id="durDrop" type="checkbox" style={{ display: "none"}} />
+      <label className="durationSelection" htmlFor="durDrop" onClick={durationDropdown}> Duration Selection 
+        {durationCheck ? (<i className='drop-icon-up'></i>) : (<i className='drop-icon-down'></i>)}
+      </label>
+      <form className={`durSelection ${durationCheck ? "open" : ""}`} id="durSelection">
         <label htmlFor="dur" className = "durSelect" style = {{ display: "inline-block", width: "240px", fontSize: "12px", color: 'rgba(105, 101, 101, 1)'}}>
           How long do you want your image to be displayed for?
         </label>
@@ -106,7 +115,7 @@ const UploadArea = ({file, onSuccess}) => {
         </select>
       </form>
 
-      <div className = "uploadButton" style={{ marginTop: "20px"}}>
+      <div className = "uploadButton" style={{ marginTop: "10px"}}>
         <button id="uploadB" onClick={onUploadClick}>Upload</button>
       </div>
       <div className="consent">

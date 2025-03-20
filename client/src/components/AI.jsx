@@ -20,6 +20,7 @@ const AI = () => {
   const [file, setFile] = useState();
   const [fileLink, setFileLink] = useState();
   const [loading, setLoading] = useState(false);
+  const [expandedFrame, setExpandedFrame] = useState(false);
 
   const onAiClick = () => {
     setLoading(true);
@@ -40,7 +41,7 @@ const AI = () => {
   }
 
   return (
-    <div className="drawFrame" style={{ textAlign: "center" }}>
+    <div className={`drawFrame ${expandedFrame ? "expanded" : ""}`}>
       <div className={`innerFrame ${loading ? "blurred" : ""}`} style={{backgroundColor: "white", paddingTop: "8px", paddingLeft: "5px", marginBottom: "2px"}}>
         <img className="aiImage" id="aiImage" src={fileLink}/>
       </div>
@@ -64,7 +65,7 @@ const AI = () => {
       <UploadArea file={file} onSuccess={() => {
           setFile(); 
           setFileLink();
-        }}
+        }} setExpandedFrame={setExpandedFrame}
       />
     </div>
   );

@@ -136,7 +136,7 @@ button:disabled {
   border: 5px solid gray;
   border-bottom-color: yellow;
   border-radius: 50%;
-  margin-right: 30px;
+  margin-right: 20px;
   margin-top: 2px;
   display: inline-block;
   box-sizing: border-box;
@@ -156,7 +156,7 @@ button:disabled {
   and (min-width: 501px) {
     .loader {
       margin-top: 0px;
-      margin-right: 35px;
+      margin-right: 15px;
       padding: 2px;
     }
 }
@@ -167,10 +167,10 @@ button:disabled {
 
 .aiButton { 
   display: inline-block;
-  padding-top: 3px;
-  line-height: 1; 
-  width: 85px; height: 35px;
-  font-size: 10px; 
+  padding-top: 0px;
+  line-height: 0.8; 
+  width: 60px; height: 35px;
+  font-size: 8.5px; 
   border-radius: 5px;
 }
 
@@ -178,23 +178,23 @@ button:disabled {
   and (min-width: 501px) {
     .aiButton {
       height: 28.5px;
-      margin-right: 5px;
+      margin-right: 0px;
       padding: 2px;
     }
 }
 
 .aiButtonDiv {
   float: right;
-  margin-right: 15px;
+  margin-right: 25px;
   margin-top: 7px;
 }
 
 #promptInput { 
   float: left;
   height: 25px;
-  width: 155px;
+  width: 160px;
   font-size: 16px; 
-  margin-left: 20px;
+  margin-left: 25px;
   margin-top: 7px; 
   margin-bottom: 15px; 
   border-radius: 5px; 
@@ -250,12 +250,17 @@ input[type="file"] {
 }
 
 .drawFrame{
-  width:297px; height:645px;
+  width:297px; height:590px;
   display:inline-block;
   border:1px solid rgb(0, 0, 0);
   border-radius: 60px;
   background-color: rgba(255, 255, 255, 1);
   position:relative;
+  transition: height 0.5s ease-in-out;
+}
+
+.drawFrame.expanded {
+  height: 650px;
 }
 
 .drawArea {
@@ -298,9 +303,20 @@ input[type="file"] {
 }
 
 .durSelection {
-  display: none;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
   width: 240px; 
   margin-bottom: 2px;
+  margin-left: 30px;
+  transition: max-height 0.5s ease-out, opacity 0.3s ease-out;
+}
+
+.durSelection.open {
+  max-height: 100px;
+  width: 240px;
+  margin-left: 30px;
+  opacity: 1;
 }
 
 .durDrop:checked + .durSelection {
@@ -365,11 +381,20 @@ input[type="file"] {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23fff' d='M1.22 6.28a.75.75 0 0 1 0-1.06l3.5-3.5a.749.749 0 1 1 1.06 1.06L3.561 5h7.188l.001.007L10.749 5q.088 0 .171.019A4.501 4.501 0 0 1 10.5 14H8.796a.75.75 0 0 1 0-1.5H10.5a3 3 0 1 0 0-6H3.561L5.78 8.72a.749.749 0 1 1-1.06 1.06z'/%3E%3C/svg%3E");
 }
 
-.drop-icon {
+.drop-icon-down {
   float: right;
   width: 20px; height: 20px;
   margin-right: 10px;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 8L10 12L6 8' stroke='%23040F0F' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.drop-icon-up {
+  float: right;
+  width: 20px; height: 20px;
+  margin-right: 10px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 12L10 8L14 12' stroke='%23040F0F' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
 }

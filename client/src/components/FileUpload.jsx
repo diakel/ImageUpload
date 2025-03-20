@@ -4,6 +4,7 @@ import UploadArea from "./UploadArea";
 const FileUpload = () => {
   const [file, setFile] = useState();
   const [fileLink, setFileLink] = useState();
+  const [expandedFrame, setExpandedFrame] = useState(false);
 
   const onFileSelect = (e) => {
     var original_file = e.target.files[0];
@@ -14,8 +15,8 @@ const FileUpload = () => {
   };
 
   return (
-    <div className="drawFrame" style = {{ height: "590px"}}>
-      <div className = "innerFrame" style={{width: "241px", height: "338px"}}>
+    <div className={`drawFrame ${expandedFrame ? "expanded" : ""}`}>
+      <div className = "innerFrame" style={{width: "241px", height: "338px", marginBottom: "35px"}}>
         <label htmlFor="fileUpload" id="custom-file-upload">
         <img id="cloud" src="/Vector.png" alt="A picture of a cloud"></img>
           <p style = {{ marginTop: "10px", marginBottom: "5px" }}>Choose your image</p>
@@ -32,7 +33,7 @@ const FileUpload = () => {
           setFile(); 
           setFileLink(); 
           document.getElementById("custom-file-upload").style.opacity = 100; 
-        }}
+        }} setExpandedFrame={setExpandedFrame}
       />
     </div>
   );
