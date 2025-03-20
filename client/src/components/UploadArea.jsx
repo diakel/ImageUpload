@@ -4,6 +4,10 @@ import Swal from 'sweetalert2';
 
 const MAX_UPLOAD_SIZE = 10485760; // in bytes (set to 10 MB)
 
+/**
+ * Upload area includes upload button and duration selection.  
+ **/
+
 function AlertPopup(title, text, icon) {
   Swal.fire({
     title: title,

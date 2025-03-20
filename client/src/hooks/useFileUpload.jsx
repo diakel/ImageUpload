@@ -8,8 +8,6 @@ import Swal from 'sweetalert2';
 **/
 
 function getKeyAndContentType(file) {
-  // const [fileName, extension] = file.name.split(".");
-  // let key = prefix + `/${fileName}-${new Date().valueOf()}.${extension}`;
   const now = new Date();
   const later = new Date(2100, 12, 31, 10, 0, 0, 0);
   const timeDiff = Math.abs(later - now);
@@ -85,7 +83,7 @@ export default function useFileUpload(onSuccess) {
                       }
                     },
                     () => {
-                      console.log("Upload completed successfully");
+                      // console.log("Upload completed successfully");
                       // AlertPopup("Success", "Your file was uploaded!", "success");
                       onSuccess(fileLink);
                       setUploading(false);
