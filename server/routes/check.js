@@ -10,6 +10,9 @@ const SAFETY_THRESHOLD = 0.5    // if probability that an image is inappropriate
 
 const nsfwChecker = express.Router()
 const upload = multer()
+tf.enableProdMode();
+
+//tf.setMemoryLimit(0.5); 
 
 const convert = async (imageBuffer) => {
   // Decoded image in UInt8 Byte array
@@ -38,6 +41,7 @@ nsfwChecker.post('/nsfw', upload.single('image'), async (req, res) => {
       //const image = await convert(req.file.buffer);
       const image = tf.node.decodeImage(req.file.buffer, 3);
       const predictions = await _model.classify(image);
+      image.dispose();
       for (const item of predictions) {
         if (item.className !== "Drawing" && item.className !== "Neutral") {
           if (item.probability > SAFETY_THRESHOLD) {
