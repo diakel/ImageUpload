@@ -302,6 +302,11 @@ input[type="file"] {
   margin-bottom: 5px;
 }
 
+.durationSelection.active {
+  color: black;
+  border: 1px solid black;
+}
+
 .durSelection {
   max-height: 0;
   overflow: hidden;

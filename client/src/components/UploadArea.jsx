@@ -91,7 +91,7 @@ const UploadArea = ({file, onSuccess, setExpandedFrame}) => {
   return (
     <div>
       <input className="durDrop" id="durDrop" type="checkbox" style={{ display: "none"}} />
-      <label className="durationSelection" htmlFor="durDrop" onClick={durationDropdown}> Duration Selection 
+      <label className={`durationSelection ${durationCheck ? "active" : ""}`} htmlFor="durDrop" onClick={durationDropdown}> Duration Selection 
         {durationCheck ? (<i className='drop-icon-up'></i>) : (<i className='drop-icon-down'></i>)}
       </label>
       <form className={`durSelection ${durationCheck ? "open" : ""}`} id="durSelection">
