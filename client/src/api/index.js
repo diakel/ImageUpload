@@ -69,7 +69,8 @@ export async function uploadFileToSignedUrl(
   onProgress,
   onComplete
 ) {
-  // onComplete({"status": 200});  // for testing purposes
+  onComplete({"status": 200});  // for testing purposes
+  return;
   // const base64Image = await fileToBase64(file);
   axios
     .put(signedUrl, file, {

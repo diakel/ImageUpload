@@ -14,8 +14,8 @@ tf.enableProdMode();
 
 const convert = async (imageBuffer) => {
   // Decoded image in UInt8 Byte array
-  const tensor = tf.node.decodeImage(imageBuffer, 3);
-  return tensor;
+  //const tensor = tf.node.decodeImage(imageBuffer, 3);
+  //return tensor;
   const data = await sharp(imageBuffer).resize({ width: 100, height: 100 }).toFormat("jpeg").toBuffer();
   // const data = await sharp(imageBufferResized).toFormat("jpeg").toBuffer();
   const image = jpeg.decode(data, true);
@@ -36,8 +36,8 @@ nsfwChecker.post('/nsfw', upload.single('image'), async (req, res) => {
   else {
     try {
       const _model = getModel();
+      const resizedBuffer = await sharp(req.file.buffer).resize(224, 224).toFormat("jpeg").toBuffer();
       //const image = await convert(req.file.buffer);
-      const resizedBuffer = await sharp(req.file.buffer).resize(224, 224).toBuffer();
       const image = tf.node.decodeImage(resizedBuffer, 3);
       const predictions = await _model.classify(image);
       image.dispose();

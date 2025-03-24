@@ -157,6 +157,7 @@ function App() {
         onClick={() => setRun(true)} 
         style={{ display: "block", paddingBottom: "7px", color: "blue", textDecoration: "underline", cursor: "pointer" }}
       >
+        <i className='loupe-icon'></i>
         Tutorial
       </span>
       <Container style={{ display: "flex", justifyContent: "center" }}>

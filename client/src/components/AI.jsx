@@ -42,7 +42,7 @@ const AI = () => {
 
   return (
     <div className={`drawFrame ${expandedFrame ? "expanded" : ""}`}>
-      <div className={`innerFrame ${loading ? "blurred" : ""}`} style={{backgroundColor: "white", paddingTop: "8px", paddingLeft: "5px", marginBottom: "2px"}}>
+      <div className={`innerFrame ${loading ? "blurred" : ""}`} style={{backgroundColor: "white", paddingTop: "8px", paddingLeft: "5px", marginBottom: "0px"}}>
         <img className="aiImage" id="aiImage" src={fileLink}/>
       </div>
       <div style={{ marginTop: "0px" }}>
