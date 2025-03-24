@@ -23,13 +23,12 @@ const SketchPad = () => {
         />
       </div>
       <div style={{ marginTop: "0px"}}>
-        <div id="drawButtonArea" style={{float: "left", paddingLeft: "20px", marginBottom: "15px" }}>
+        <div id="drawButtonArea" style={{display: "inline-block", marginBottom: "15px" }}>
           <input 
             id="drawButton"
             type="color" 
             value={color} 
             onChange={(e) => setColor(e.target.value)}
-            style={{marginLeft: "10px"}}
           />
           <input 
             id="drawButtonRadius"

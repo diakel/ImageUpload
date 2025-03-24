@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import useFileUpload from "../hooks/useFileUpload";
 import Swal from 'sweetalert2';
 
-const MAX_UPLOAD_SIZE = 10485760; // in bytes (set to 10 MB)
+const MAX_UPLOAD_SIZE = 20971520; // in bytes (set to 20 MB)
 
 /**
- * Upload area includes upload button and duration selection.  
+ * Upload area includes upload button, duration selection, and Terms and Conditions.  
  **/
 
 function AlertPopup(title, text, icon) {
@@ -31,7 +31,7 @@ const UploadArea = ({file, onSuccess, setExpandedFrame}) => {
   });
           
   const showTermsPopup = () => {
-    AlertPopup("Terms and Conditions", "Here will be Terms and Condition detailing file storage and image usage", "info");
+    AlertPopup("Terms and Conditions", "Make sure that you own the images that you upload. Be aware that by uploading your image you give us permission to use it for public display.", "info");
   };
 
   const URLtoBlob = (dataURL) => {

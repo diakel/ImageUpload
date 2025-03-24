@@ -6,13 +6,11 @@ import * as tf from "@tensorflow/tfjs-node"
 import sharp from "sharp"
 import { getModel } from "../model.js"
 
-const SAFETY_THRESHOLD = 0.5    // if probability that an image is inappropriate is higher than this threshold, it will be rejected
+const SAFETY_THRESHOLD = 0.4    // if probability that an image is inappropriate is higher than this threshold, it will be rejected
 
 const nsfwChecker = express.Router()
 const upload = multer()
 tf.enableProdMode();
-
-//tf.setMemoryLimit(0.5); 
 
 const convert = async (imageBuffer) => {
   // Decoded image in UInt8 Byte array
