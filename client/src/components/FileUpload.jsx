@@ -27,7 +27,7 @@ const FileUpload = () => {
         confirmButton: 'rounded-alert'
       }
     });
-    //localStorage.returning = true;
+    localStorage.returning = true;
   };
 
   const onFileSelect = (e) => {
